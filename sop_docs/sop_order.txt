@@ -1,0 +1,31 @@
+SOP DIVISI ORDER/KASIR - SAVORIA RESTO GROUP
+
+1. KANAL PEMESANAN
+Savoria menerima pesanan melalui 4 kanal: Offline (dine-in/kasir langsung), GoFood,
+GrabFood, dan ShopeeFood. Setiap kanal memiliki SLA (Service Level Agreement) waktu
+persiapan pesanan maksimal 15 menit sejak pesanan diterima dapur.
+
+2. PRIORITAS ANTREAN DAPUR
+Pesanan disusun berdasarkan waktu masuk (first-in-first-out), TIDAK berdasarkan kanal.
+Dilarang mendahulukan pesanan online di atas pesanan dine-in yang sudah masuk lebih dulu,
+kecuali ada indikasi keterlambatan pengambilan oleh kurir online yang berisiko dibatalkan sistem.
+
+3. JAM SIBUK (PEAK HOURS)
+Jam sibuk utama terjadi pada pukul 11.00-14.00 (makan siang) dan 18.00-21.00 (makan malam).
+Pada jam sibuk, setiap cabang wajib menambah minimal 1 staf kasir/dapur ekstra dibanding
+jam normal untuk menjaga SLA 15 menit tetap terpenuhi.
+
+4. MENU TERLARIS DAN REKOMENDASI STOK
+Divisi Order wajib memantau data transaksi harian untuk mengidentifikasi menu dengan
+volume penjualan tertinggi per cabang. Informasi ini harus dibagikan ke Divisi Inventory
+setiap hari agar proyeksi kebutuhan bahan baku tetap akurat.
+
+5. PENANGANAN PEMBATALAN DAN KOMPLAIN
+Pembatalan pesanan online akibat keterlambatan dapur di atas SLA harus dicatat sebagai
+insiden dan dilaporkan mingguan. Komplain rasa/kualitas makanan diteruskan ke Chef
+cabang terkait dalam waktu maksimal 1 jam.
+
+6. REKONSILIASI KANAL ONLINE VS OFFLINE
+Setiap akhir hari, jumlah transaksi tercatat di sistem kasir harus dicocokkan dengan
+laporan dari aplikasi GoFood/GrabFood/ShopeeFood untuk memastikan tidak ada selisih
+pesanan yang tidak tercatat.

@@ -1,0 +1,36 @@
+SOP DIVISI HR - SAVORIA RESTO GROUP
+
+1. STRUKTUR SHIFT KERJA
+Savoria menerapkan 3 jenis shift di setiap cabang:
+- Shift Pagi: 07.00 - 15.00
+- Shift Siang: 11.00 - 19.00
+- Shift Malam: 15.00 - 23.00
+
+2. MINIMUM STAF PER SHIFT
+Setiap shift wajib memiliki minimal komposisi berikut per cabang:
+- 1 Chef
+- 2 Waiter
+- 1 Kasir
+Pada Shift Malam di hari Jumat, Sabtu, dan Minggu (weekend), komposisi minimal
+ditambah menjadi 2 Chef dan 3 Waiter karena volume pelanggan lebih tinggi.
+
+3. LARANGAN BENTROK JADWAL
+Satu karyawan tidak boleh dijadwalkan pada dua shift yang tumpang tindih waktunya
+dalam hari yang sama, kecuali dalam kondisi darurat kekurangan staf mendadak
+dan harus mendapat persetujuan Manajer Cabang.
+
+4. DETEKSI KEKURANGAN STAF SHIFT MALAM WEEKEND
+Jika hasil pengecekan jadwal menunjukkan Shift Malam pada Jumat/Sabtu/Minggu
+memiliki staf di bawah komposisi minimum (kurang dari 2 Chef atau 3 Waiter),
+maka Divisi HR wajib melakukan penjadwalan ulang atau menambah shift tambahan
+(lembur) minimal 3 hari sebelum tanggal tersebut.
+
+5. ROTASI DAN KESEJAHTERAAN KARYAWAN
+Karyawan tidak boleh dijadwalkan bekerja lebih dari 6 hari berturut-turut tanpa
+libur. Rotasi shift diusahakan merata agar tidak ada karyawan yang selalu
+mendapat shift malam terus-menerus.
+
+6. PELAPORAN KEHADIRAN
+Setiap cabang wajib melaporkan rekap kehadiran dan jadwal shift mingguan ke
+Manajemen Pusat setiap hari Senin, mencakup: jumlah shift terisi, shift kosong
+(gap), dan karyawan yang mengambil cuti/izin.

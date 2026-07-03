@@ -1,0 +1,31 @@
+SOP DIVISI INVENTORY - SAVORIA RESTO GROUP
+
+1. ATURAN RESTOCK BAHAN BAKU
+Setiap cabang wajib melakukan pengecekan stok bahan baku setiap pagi pukul 07.00.
+Jika stok bahan baku (stock_remaining) berada di bawah 10% dari stok awal hari (stock_start),
+maka bahan tersebut dikategorikan STATUS KRITIS dan wajib dilakukan pemesanan ulang (restock)
+dalam waktu maksimal 1x24 jam ke supplier terkait.
+
+Jika stok berada di antara 10%-25% dari stok awal, bahan dikategorikan STATUS WASPADA dan
+perlu dipantau lebih ketat, restock disarankan dalam 2x24 jam.
+
+Jika stok di atas 25%, bahan dikategorikan STATUS AMAN dan tidak perlu tindakan khusus.
+
+2. PRIORITAS BAHAN BAKU KRITIS
+Bahan baku yang termasuk kategori "fast-moving" (Beras, Ayam, Minyak Goreng, Bumbu Dasar)
+mendapat prioritas restock lebih tinggi dibanding bahan "slow-moving" (Kopi Bubuk, Alpukat),
+karena dampak kehabisan stok fast-moving langsung menghentikan operasional dapur.
+
+3. PENCEGAHAN PEMBOROSAN (WASTE)
+Bahan baku dengan sisa stok tinggi namun mendekati masa kedaluwarsa harus dilaporkan ke
+Manajer Cabang untuk dipertimbangkan promosi menu terkait guna mengurangi bahan yang terbuang.
+
+4. KOORDINASI DENGAN DIVISI ORDER
+Jika terdapat lonjakan permintaan menu tertentu (berdasarkan data transaksi harian),
+Divisi Inventory harus menyesuaikan proyeksi kebutuhan bahan baku untuk menu tersebut
+di cabang yang bersangkutan pada hari berikutnya.
+
+5. PELAPORAN
+Setiap akhir pekan, Divisi Inventory wajib membuat rekap stok mingguan per cabang dan
+mengirimkannya ke Manajemen Pusat, mencakup: daftar bahan status kritis, total bahan
+yang direstock, dan estimasi biaya restock.

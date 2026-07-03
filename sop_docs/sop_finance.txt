@@ -1,0 +1,32 @@
+SOP DIVISI KEUANGAN - SAVORIA RESTO GROUP
+
+1. PENCATATAN OMZET HARIAN
+Setiap cabang wajib mencatat total penjualan harian (recorded_sales) dari sistem
+kasir, mencakup seluruh kanal (Offline, GoFood, GrabFood, ShopeeFood), dan
+melaporkannya ke sistem pusat paling lambat pukul 23.59 pada hari yang sama.
+
+2. REKONSILIASI BANK
+Setiap cabang wajib mencocokkan jumlah dana yang masuk ke rekening bank
+(bank_deposit) dengan recorded_sales pada hari yang sama. Selisih (discrepancy)
+antara keduanya harus dianalisis dalam waktu maksimal 2x24 jam.
+
+3. AMBANG BATAS TOLERANSI SELISIH
+Selisih (discrepancy) di bawah Rp 10.000 dianggap wajar (pembulatan/biaya admin)
+dan tidak memerlukan investigasi lebih lanjut. Selisih antara Rp 10.000 - Rp 50.000
+memerlukan pengecekan ulang bukti transaksi kasir. Selisih di atas Rp 50.000
+WAJIB dieskalasi ke Manajer Keuangan Pusat untuk investigasi menyeluruh.
+
+4. PENYEBAB UMUM SELISIH
+Selisih biasanya disebabkan oleh: keterlambatan pencairan dana dari platform
+online (GoFood/GrabFood/ShopeeFood biasanya cair H+1 hingga H+3), kesalahan input
+kasir, atau biaya potongan platform yang belum diperhitungkan.
+
+5. LAPORAN KEUANGAN BULANAN
+Setiap cabang wajib menyusun laporan keuangan bulanan yang mencakup: total omzet,
+total selisih rekonsiliasi sepanjang bulan, dan tren omzet dibanding bulan
+sebelumnya. Laporan ini menjadi dasar evaluasi kinerja cabang oleh Manajemen Pusat.
+
+6. AUDIT BERKALA
+Audit keuangan internal dilakukan setiap 3 bulan sekali di seluruh cabang untuk
+memastikan tidak ada kebocoran keuangan yang tidak terdeteksi melalui rekonsiliasi
+harian biasa.
