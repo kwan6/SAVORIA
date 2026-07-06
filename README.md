@@ -204,6 +204,6 @@ Setiap pertanyaan pada tab Chat membutuhkan waktu beberapa detik untuk diproses 
 
 # Anggota Kelompok
 
-23.11.5567 - Ahmad Rafdy Ramadhan
-23.11.5575 - Muhammad Noer Attalah Dzahkwan
-23.11.5578 - Aji Ilham Widcaksono
+- 23.11.5567 - Ahmad Rafdy Ramadhan
+- 23.11.5575 - Muhammad Noer Attalah Dzahkwan
+- 23.11.5578 - Aji Ilham Widcaksono
