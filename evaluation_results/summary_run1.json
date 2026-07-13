@@ -1,0 +1,123 @@
+{
+  "generated_at": "2026-07-05T17:56:05",
+  "n_test_cases": 21,
+  "n_errors": 0,
+  "accuracy": {
+    "overall_accuracy": 1.0,
+    "per_class": {
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      },
+      "general": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 3
+      },
+      "hr": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      },
+      "inventory": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 5
+      },
+      "order": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 5
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "finance",
+        "general",
+        "hr",
+        "inventory",
+        "order"
+      ],
+      "matrix": [
+        [
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ]
+      ]
+    }
+  },
+  "effectiveness": {
+    "avg_context_coverage_recall": 0.19323198134472644,
+    "per_division": {
+      "finance": 0.29166666666666663,
+      "hr": 0.11805555555555555,
+      "inventory": 0.20262626262626263,
+      "order": 0.16523109243697479
+    },
+    "n_cases_evaluated": 18
+  },
+  "efficiency": {
+    "avg_latency_total_sec": 4.028474047070458,
+    "median_latency_total_sec": 3.594888925552368,
+    "p95_latency_total_sec": 5.484076023101807,
+    "avg_latency_supervisor_sec": 0.03615630240667434,
+    "fallback_rate": 0.9047619047619048
+  },
+  "explainability": {
+    "citation_rate": 0.8571428571428571,
+    "avg_sop_docs_retrieved": 2.0,
+    "avg_retrieval_distance": 0.7950970861646864,
+    "note": "avg_retrieval_distance: semakin KECIL semakin relevan (jarak vektor Chroma)."
+  },
+  "hallucination": {
+    "avg_grounding_precision": 0.9545454545454546,
+    "hallucination_rate": 0.4444444444444444,
+    "threshold_used": 0.7,
+    "n_cases_evaluated": 18,
+    "detection_breakdown": {
+      "n_cases_fact_based": 11,
+      "n_cases_llm_judge_based": 7,
+      "llm_judge_verdicts": {
+        "not_grounded": 7
+      }
+    },
+    "note": "Jawaban dengan >=1 fakta angka/entitas dinilai via overlap fakta (fact_grounding); jawaban tanpa fakta numerik/entitas sama sekali (mis. jawaban prosedural murni) dinilai via LLM-as-judge."
+  }
+}

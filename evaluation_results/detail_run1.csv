@@ -1,0 +1,78 @@
+question,branch_id,expected_divisi,finetuned_divisi,confidence,fallback_used,latency_supervisor_sec,predicted_divisi,correct,latency_total_sec,agent,answer,n_sop_docs_preview,citation_present,n_sop_docs_full,avg_retrieval_distance,grounding_precision,coverage_recall,n_answer_facts,n_context_facts,n_overlap_facts,llm_judge_verdict,hallucination_method,hallucinated,error,run
+Bahan apa yang paling kritis stoknya hari ini?,,inventory,inventory,0.42675748944270964,True,0.7176313400268555,inventory,1,14.75204586982727,Inventory,"Berdasarkan data aktual dan SOP terkait Divisi Inventory, bahan yang paling kritis stoknya hari ini adalah Daging Sapi di semua cabang, karena sisa stoknya 0 kg (0.0%) dan statusnya KRITIS.
+
+Sumber informasi: sop_inventory.txt",2,True,2,0.7737762629985809,1.0,0.2,3.0,15.0,3.0,,fact_grounding,0.0,,1
+Kapan bahan baku harus direstock?,,inventory,inventory,0.49367568506530096,True,0.0022444725036621094,inventory,1,4.422704219818115,Inventory,"Bahan baku harus direstock jika stoknya berada di bawah 10% dari stok awal hari. Dalam kasus ini, karena stok bahan baku di semua cabang sudah mencapai 0%, maka bahan baku tersebut dikategorikan sebagai status kritis dan wajib dilakukan pemesanan ulang dalam waktu maksimal 1x24 jam ke supplier terkait.
+
+Sumber: SOP Inventory - Savoria Resto Group (sop_inventory.txt)",2,True,2,0.8307016491889954,1.0,0.2222222222222222,4.0,18.0,4.0,,fact_grounding,0.0,,1
+Bagaimana cara mencegah bahan baku terbuang?,,inventory,general,0.33127818193444813,True,0.0023250579833984375,inventory,1,4.7689924240112305,Inventory,"Untuk mencegah bahan baku terbuang, perlu dilakukan pengecekan stok bahan baku secara teratur dan dilaporkan ke Manajer Cabang jika sisa stok mendekati masa kedaluwarsa. Bahan baku dengan sisa stok tinggi harus dilaporkan segera agar dapat dipertimbangkan promosi menu terkait untuk mengurangi bahan yang terbuang.
+
+Sumber: SOP DIVISI INVENTORY - SAVORIA RESTO GROUP, data aktual dari sistem inventory.",2,True,2,0.7891063094139099,,0.0,0.0,18.0,0.0,not_grounded,llm_judge,1.0,,1
+Stok bahan baku mana saja yang statusnya waspada?,BR01,inventory,inventory,0.39995194484465096,True,0.0015366077423095703,inventory,1,5.057759761810303,Inventory,"Berdasarkan konteks SOP dan data aktual, stok bahan baku dengan status waspada adalah:
+
+- Minyak Goreng di Savoria Malioboro: sisa 1 liter (1.4%) -> status KRITIS
+- Daging Sapi di Savoria Malioboro: sisa 2 kg (2.1%) -> status KRITIS
+- Ayam di Savoria Malioboro: sisa 3 kg (9.1%) -> status KRITIS
+
+Sumber informasi: SOP Divisi Inventory - Savoria Resto Group dan data aktual per 2026-06-29.",2,True,2,0.7341052293777466,1.0,0.5909090909090909,13.0,22.0,13.0,,fact_grounding,0.0,,1
+Apa SOP penanganan bahan baku yang mendekati kadaluarsa?,,inventory,inventory,0.48504500871772843,True,0.0012886524200439453,inventory,1,4.07464337348938,Inventory,"SOP terkait penanganan bahan baku yang mendekati kadaluarsa adalah sebagai berikut:
+
+Bahan baku dengan sisa stok tinggi namun mendekati masa kedaluwarsa harus dilaporkan ke Manajer Cabang untuk dipertimbangkan promosi menu terkait guna mengurangi bahan yang terbuang.
+
+Sumber: SOP Inventory - Savoria Resto Group (sop_inventory.txt)",2,True,2,0.7173924446105957,,0.0,0.0,18.0,0.0,not_grounded,llm_judge,1.0,,1
+Menu apa yang paling laris bulan ini?,,order,order,0.3458760417104323,True,0.0014522075653076172,order,1,3.4319112300872803,Order,"Berdasarkan data aktual yang tersedia di SOP Divisi Order/Savoria Resto Group, menu yang paling laris bulan ini adalah Es Teh Manis dengan 6578 porsi terjual. 
+
+Sumber informasi: sop_order.txt",2,True,2,0.8420008420944214,1.0,0.11764705882352941,2.0,17.0,2.0,,fact_grounding,0.0,,1
+Apa yang harus dilakukan saat jam sibuk?,,order,order,0.3488848464324211,True,0.0015931129455566406,order,1,3.594888925552368,Order,"Pada jam sibuk (pukul 11.00-14.00 dan 18.00-21.00), setiap cabang wajib menambah minimal 1 staf kasir/dapur ekstra untuk menjaga SLA 15 menit tetap terpenuhi.
+
+Sumber: SOP_order.txt",2,True,2,0.8128782212734222,1.0,0.2857142857142857,6.0,21.0,6.0,,fact_grounding,0.0,,1
+Bagaimana urutan prioritas pesanan online vs offline?,,order,order,0.4042429958145913,True,0.004106998443603516,order,1,4.355762720108032,Order,"Urutan prioritas pesanan adalah berdasarkan waktu masuk, yaitu First-In-First-Out (FIFO). Pesanan disusun berdasarkan waktu masuk, tidak berdasarkan kanal. Dilarang mendahulukan pesanan online di atas pesanan dine-in yang sudah masuk lebih dulu, kecuali ada indikasi keterlambatan pengambilan oleh kurir online yang berisiko dibatalkan sistem.
+
+Sumber: SOP_order.txt",2,True,2,0.7483443915843964,,0.0,0.0,15.0,0.0,not_grounded,llm_judge,1.0,,1
+Bagaimana distribusi kanal pemesanan di cabang ini?,BR01,order,order,0.2572762658715456,True,0.0022749900817871094,order,1,3.4440200328826904,Order,"Distribusi kanal pemesanan di cabang ini adalah sebagai berikut:
+
+- Offline: 46.7%
+- GoFood: 23.7%
+- GrabFood: 19.5%
+- ShopeeFood: 10.0%
+
+Sumber informasi: sop_order.txt",2,True,2,0.8384671211242676,1.0,0.23529411764705882,4.0,17.0,4.0,,fact_grounding,0.0,,1
+Menu apa yang penjualannya paling rendah?,,order,order,0.4379550864154877,True,0.0013427734375,order,1,3.091306209564209,Order,"Berdasarkan data aktual yang tersedia di SOP Order, menu dengan penjualan paling rendah adalah Ayam Bakar Madu Savoria dengan 4707 porsi terjual.
+
+Sumber informasi: sop_order.txt.",2,True,2,0.8501414954662323,1.0,0.1875,3.0,16.0,3.0,,fact_grounding,0.0,,1
+Berapa minimal staf shift malam saat weekend?,,hr,hr,0.679440244568779,False,0.0043621063232421875,hr,1,2.7452144622802734,HR,"Minimal staf shift malam saat weekend adalah 2 Chef dan 3 Waiter. 
+
+Sumber informasi: sop_hr.txt",2,True,2,0.6230376064777374,1.0,0.08333333333333333,2.0,24.0,2.0,,fact_grounding,0.0,,1
+Apa aturan kalau jadwal shift bentrok?,,hr,hr,0.32012410114665035,True,0.003963470458984375,hr,1,5.078682899475098,HR,"Aturan kalau jadwal shift bentrok adalah bahwa satu karyawan tidak boleh dijadwalkan pada dua shift yang tumpang tindih waktunya dalam hari yang sama, kecuali dalam kondisi darurat kekurangan staf mendadak dan harus mendapat persetujuan dari Manajer Cabang.
+
+Sumber: SOP_hr.txt",2,True,2,0.7388952076435089,,0.0,0.0,24.0,0.0,not_grounded,llm_judge,1.0,,1
+Apakah ada kekurangan staf shift malam akhir pekan?,BR01,hr,hr,0.5122864104620968,True,0.0018782615661621094,hr,1,5.484076023101807,HR,"Ya, terdapat beberapa kekurangan staf shift malam akhir pekan di Savoria Malioboro. Berdasarkan data aktual yang tersedia, ada beberapa hari akhir pekan yang memiliki staf di bawah komposisi minimum (kurang dari 2 Chef atau 3 Waiter). Contohnya adalah:
+
+- 2026-06-06: hanya 1 staf
+- 2026-06-28: hanya 1 staf
+
+Dalam hal ini, Divisi HR wajib melakukan penjadwalan ulang atau menambah shift tambahan minimal 3 hari sebelum tanggal tersebut.
+
+Sumber informasi: SOP_hr.txt",2,True,2,0.6577638685703278,1.0,0.3888888888888889,7.0,18.0,7.0,,fact_grounding,0.0,,1
+Bagaimana SOP pengajuan cuti karyawan?,,hr,hr,0.26476422494703994,True,0.0017554759979248047,hr,1,3.14060378074646,HR,"SOP terkait hal ini belum tersedia di knowledge base.
+
+Sumber informasimu: sop_hr.txt.",2,True,2,0.7578901052474976,,0.0,0.0,25.0,0.0,not_grounded,llm_judge,1.0,,1
+Berapa batas toleransi selisih rekonsiliasi kas?,,finance,finance,0.33989503459715,True,0.0015230178833007812,finance,1,3.439966917037964,Finance,"Batas toleransi selisih rekonsiliasi kas adalah Rp 10.000. Selisih di atas Rp 50.000 wajib dieskalasi ke Manajer Keuangan Pusat untuk investigasi menyeluruh.
+
+Sumber: sop_finance.txt",2,True,2,1.033590018749237,1.0,0.6666666666666666,2.0,3.0,2.0,,fact_grounding,0.0,,1
+Apa penyebab umum selisih omzet harian?,,finance,finance,0.35723393781357027,True,0.001764059066772461,finance,1,3.8731729984283447,Finance,"Menurut SOP Divisi Keuangan - Savoria Resto Group, penyebab umum selisih omzet harian adalah kesalahan penginputan data oleh kasir atau kesalahan sistem. Oleh karena itu, penting untuk memastikan bahwa data yang diinputkan dengan akurat dan segera.
+
+Sumber informasi: sop_finance.txt",2,True,2,0.8777139782905579,,0.0,0.0,2.0,0.0,not_grounded,llm_judge,1.0,,1
+Adakah selisih keuangan yang perlu diwaspadai bulan ini?,BR01,finance,finance,0.5538339516085066,False,0.002125978469848633,finance,1,2.431309938430786,Finance,"Ya, ada selisih keuangan yang perlu diwaspadai bulan ini. Selisih rekonsiliasi sepanjang bulan mencapai Rp 0, karena tidak ada selisih di atas Rp 50.000 pada periode data.
+
+Sumber: sop_finance.txt",2,True,2,0.7768004834651947,0.5,0.5,2.0,2.0,1.0,,fact_grounding,1.0,,1
+Bagaimana prosedur rekonsiliasi kas harian?,,finance,finance,0.27626263665474343,True,0.001283407211303711,finance,1,4.8626930713653564,Finance,"Prosedur rekonsiliasi kas harian adalah sebagai berikut:
+
+1. Setiap cabang harus mencatat total penjualan harian dari sistem kasir.
+2. Mereka kemudian melakukan rekonsiliasi dengan data yang ada di sistem pusat untuk memastikan keselarasan antara kedua sumber tersebut.
+3. Jika terdapat selisih, maka cabang harus melaporkan kebocoran keuangan kepada tim audit dan mengambil tindakan yang diperlukan.
+
+Sumber: SOP Finance - Savoria Resto Group (sop_finance.txt)",2,True,2,0.9091423153877258,,0.0,0.0,3.0,0.0,not_grounded,llm_judge,1.0,,1
+Bagaimana cuaca hari ini di Yogyakarta?,,general,general,0.39308245494331645,True,0.00179290771484375,general,1,0.8834631443023682,General,"Maaf, pertanyaan ini tidak termasuk ke divisi Inventory, Order, HR, atau Finance. Coba ajukan pertanyaan yang lebih spesifik terkait salah satu divisi tersebut.",0,False,0,,,,,,,,no_context,,,1
+Siapa nama CEO Savoria?,,general,general,0.33619140579467277,True,0.0015120506286621094,general,1,0.8219776153564453,General,"Maaf, pertanyaan ini tidak termasuk ke divisi Inventory, Order, HR, atau Finance. Coba ajukan pertanyaan yang lebih spesifik terkait salah satu divisi tersebut.",0,False,0,,,,,,,,no_context,,,1
+Apa resep rahasia saus andalan restoran?,,general,general,0.43770122016956997,True,0.0015254020690917969,general,1,0.842759370803833,General,"Maaf, pertanyaan ini tidak termasuk ke divisi Inventory, Order, HR, atau Finance. Coba ajukan pertanyaan yang lebih spesifik terkait salah satu divisi tersebut.",0,False,0,,,,,,,,no_context,,,1

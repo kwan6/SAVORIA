@@ -1,0 +1,167 @@
+{
+  "generated_at": "2026-07-05T17:58:39",
+  "n_test_cases": 63,
+  "n_errors": 0,
+  "accuracy": {
+    "overall_accuracy": 1.0,
+    "per_class": {
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 12
+      },
+      "general": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 9
+      },
+      "hr": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 12
+      },
+      "inventory": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 15
+      },
+      "order": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 15
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "finance",
+        "general",
+        "hr",
+        "inventory",
+        "order"
+      ],
+      "matrix": [
+        [
+          12,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          12,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          15,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          15
+        ]
+      ]
+    }
+  },
+  "effectiveness": {
+    "avg_context_coverage_recall": 0.1855065791748798,
+    "per_division": {
+      "finance": 0.2638888888888889,
+      "hr": 0.11342592592592592,
+      "inventory": 0.20074074074074075,
+      "order": 0.16523109243697479
+    },
+    "n_cases_evaluated": 54
+  },
+  "efficiency": {
+    "avg_latency_total_sec": 3.4739730093214245,
+    "median_latency_total_sec": 3.439966917037964,
+    "p95_latency_total_sec": 5.127996492385864,
+    "avg_latency_supervisor_sec": 0.013396721037607345,
+    "fallback_rate": 0.9047619047619048
+  },
+  "explainability": {
+    "citation_rate": 0.8571428571428571,
+    "avg_sop_docs_retrieved": 2.0,
+    "avg_retrieval_distance": 0.7950970861646864,
+    "note": "avg_retrieval_distance: semakin KECIL semakin relevan (jarak vektor Chroma)."
+  },
+  "hallucination": {
+    "avg_grounding_precision": 0.9705882352941176,
+    "hallucination_rate": 0.4444444444444444,
+    "threshold_used": 0.7,
+    "n_cases_evaluated": 54,
+    "detection_breakdown": {
+      "n_cases_fact_based": 32,
+      "n_cases_llm_judge_based": 22,
+      "llm_judge_verdicts": {
+        "not_grounded": 22
+      }
+    },
+    "note": "Jawaban dengan >=1 fakta angka/entitas dinilai via overlap fakta (fact_grounding); jawaban tanpa fakta numerik/entitas sama sekali (mis. jawaban prosedural murni) dinilai via LLM-as-judge."
+  },
+  "run_to_run_variability": {
+    "n_runs": 3,
+    "accuracy": {
+      "values_per_run": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "std": 0.0
+    },
+    "effectiveness_coverage": {
+      "values_per_run": [
+        0.19323198134472644,
+        0.1694384908845693,
+        0.19384926529534374
+      ],
+      "std": 0.013918795057325654
+    },
+    "efficiency_avg_latency_sec": {
+      "values_per_run": [
+        4.028474047070458,
+        3.179509469441005,
+        3.213935511452811
+      ],
+      "std": 0.48052038327288027
+    },
+    "explainability_citation_rate": {
+      "values_per_run": [
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571
+      ],
+      "std": 0.0
+    },
+    "hallucination_rate": {
+      "values_per_run": [
+        0.4444444444444444,
+        0.4444444444444444,
+        0.4444444444444444
+      ],
+      "std": 0.0
+    },
+    "note": "Nilai per-dimensi di atas dihitung dari POOLED data (semua run digabung), sementara 'values_per_run' & 'std' di sini menunjukkan seberapa jauh tiap run individual menyimpang -> std besar berarti hasil masih cukup sensitif terhadap randomness LLM."
+  }
+}

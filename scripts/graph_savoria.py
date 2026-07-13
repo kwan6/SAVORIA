@@ -10,15 +10,12 @@ ke salah satu dari: inventory, order, hr, finance, atau general.
 Cara jalankan (contoh interaktif):
     python graph_savoria.py
 """
-import os
+
 from typing import TypedDict, Optional
 from langgraph.graph import StateGraph, END
 from langchain_ollama import ChatOllama
 
 import agents
-import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "finetuning"))
-import supervisor_finetuned
 
 LLM_MODEL_NAME = "llama3.2"
 _llm = ChatOllama(model=LLM_MODEL_NAME, temperature=0)
@@ -42,16 +39,7 @@ class SavoriaState(TypedDict):
 def supervisor_node(state: SavoriaState) -> SavoriaState:
     question = state["question"]
 
-    # Tahap 1: coba klasifikasi pakai model fine-tuned (cepat)
-    result = supervisor_finetuned.classify_with_finetuned_model(question)
-
-    if not result["needs_llm_fallback"]:
-        divisi = result["divisi"]
-        print(f"[Supervisor-FineTuned] '{divisi}' (confidence: {result['confidence']:.2f})")
-    else:
-        # Tahap 2: fallback ke LLM kalau model fine-tuned ragu
-        print(f"[Supervisor-FineTuned] Confidence rendah ({result['confidence']:.2f}), fallback ke LLM...")
-        classification_prompt = f"""Kamu adalah Supervisor Agent di sistem Savoria.
+    classification_prompt = f"""Kamu adalah Supervisor Agent di sistem Savoria.
 Klasifikasikan pertanyaan berikut ke SATU kategori berikut saja (jawab satu kata):
 - inventory  (soal stok bahan baku, restock, bahan habis)
 - order      (soal menu terlaris, pesanan, kanal online/offline, jam sibuk)
@@ -63,12 +51,14 @@ Pertanyaan: "{question}"
 
 Jawab HANYA dengan satu kata kategori di atas, tanpa penjelasan tambahan."""
 
-        response = _llm.invoke(classification_prompt)
-        divisi = response.content.strip().lower()
-        if divisi not in VALID_DIVISIONS:
-            divisi = "general"
-        print(f"[Supervisor-LLM] '{divisi}'")
+    response = _llm.invoke(classification_prompt)
+    divisi = response.content.strip().lower()
 
+    # fallback kalau LLM menjawab di luar kategori yang valid
+    if divisi not in VALID_DIVISIONS:
+        divisi = "general"
+
+    print(f"[Supervisor] Pertanyaan diklasifikasikan sebagai: '{divisi}'")
     state["divisi"] = divisi
     return state
 

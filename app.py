@@ -14,7 +14,6 @@ Cara jalankan (dari folder savoria_project):
 import sys
 import os
 import time
-import json
 import pandas as pd
 import streamlit as st
 
@@ -55,7 +54,7 @@ app_graph = load_graph()
 branches_df = load_branches()
 data = load_all_data()
 
-st.title("Savoria Command Center")
+st.title("🍽️ Savoria Command Center")
 st.caption("Dashboard Multi-Agent AI untuk Manajemen Savoria Resto Group")
 
 tab_chat, tab_monitor, tab_eval = st.tabs(["💬 Chat", "📊 Monitoring Cabang", "✅ Evaluasi Model"])
@@ -109,18 +108,11 @@ with tab_chat:
                 result = final_state["result"]
 
             st.markdown(f"**[Agent {result['agent']}]**")
-            if result.get("retrieval_uncertain"):
-                st.caption("⚠️ SOP yang ditemukan mungkin kurang relevan dengan pertanyaan ini — cek ulang jawaban di bawah.")
             st.markdown(result["answer"])
             st.caption(f"⏱️ Waktu respons: {elapsed:.1f} detik")
 
             if result["sop_sources"]:
-                src_files = result.get("source_filenames") or []
-                expander_title = (
-                    f"Lihat sumber SOP yang dipakai ({', '.join(src_files)})"
-                    if src_files else "Lihat sumber SOP yang dipakai"
-                )
-                with st.expander(expander_title):
+                with st.expander("Lihat sumber SOP yang dipakai"):
                     for src in result["sop_sources"]:
                         st.markdown(f"- {src}")
 
@@ -201,183 +193,13 @@ with tab_monitor:
     st.bar_chart(channel_dist)
 
 # ==================================================================
-# TAB 3: EVALUASI MODEL
+# TAB 3: EVALUASI (placeholder, diisi di tahap berikutnya)
 # ==================================================================
 with tab_eval:
-    st.subheader("Evaluasi Model Multi-Agent Savoria")
-
-    EVAL_DIR = os.path.join(os.path.dirname(__file__), "evaluation_results")
-    summary_path = os.path.join(EVAL_DIR, "summary.json")
-    detail_path = os.path.join(EVAL_DIR, "detail.csv")
-    cm_path = os.path.join(EVAL_DIR, "confusion_matrix.png")
-    metrics_png_path = os.path.join(EVAL_DIR, "metrics_summary.png")
-
-    if not os.path.exists(summary_path):
-        st.warning(
-            "Belum ada hasil evaluasi. Jalankan dulu script evaluasi dari terminal "
-            "(pastikan Ollama sedang berjalan):"
-        )
-        st.code("python scripts\\evaluate.py", language="bash")
-        st.caption(
-            "Script ini akan menguji sistem dengan sejumlah pertanyaan berlabel "
-            "(ground-truth), lalu menghitung skor Accuracy, Effectiveness, "
-            "Efficiency, Explainability, dan Hallucination Rate."
-        )
-    else:
-        with open(summary_path, "r", encoding="utf-8") as f:
-            summary = json.load(f)
-
-        rtr = summary.get("run_to_run_variability")
-        n_runs = rtr["n_runs"] if rtr else 1
-        n_pooled = summary.get('n_test_cases', 0)
-        n_per_run = n_pooled // n_runs if n_runs else n_pooled
-
-        st.caption(f"Terakhir dievaluasi: {summary.get('generated_at', '-')} "
-                   f"| {n_runs} run x {n_per_run} test case (pooled: {n_pooled}) "
-                   f"({summary.get('n_errors', 0)} error)")
-
-        # ---------------- RINGKASAN 5 METRIK UTAMA ----------------
-        col1, col2, col3, col4, col5 = st.columns(5)
-
-        def _std_delta(path_keys):
-            if not rtr:
-                return None
-            node = rtr
-            for k in path_keys:
-                node = node.get(k) if isinstance(node, dict) else None
-                if node is None:
-                    return None
-            # node di sini SUDAH berupa nilai std (float), karena path_keys
-            # sudah diakhiri dengan "std" -> tidak perlu .get() lagi.
-            std = node
-            return f"± {std:.1%} antar-run" if isinstance(std, (int, float)) else None
-
-        acc = summary["accuracy"]["overall_accuracy"]
-        col1.metric("1️⃣ Accuracy (Routing)", f"{acc:.1%}", _std_delta(["accuracy", "std"]), delta_color="off")
-
-        eff = summary["effectiveness"]["avg_context_coverage_recall"]
-        col2.metric("2️⃣ Effectiveness", f"{eff:.1%}" if eff is not None else "N/A",
-                     _std_delta(["effectiveness_coverage", "std"]), delta_color="off")
-
-        avg_latency = summary["efficiency"]["avg_latency_total_sec"]
-        col3.metric("3️⃣ Efficiency", f"{avg_latency:.1f}s/query" if avg_latency is not None else "N/A")
-
-        citation_rate = summary["explainability"]["citation_rate"]
-        col4.metric("4️⃣ Explainability", f"{citation_rate:.1%}" if citation_rate is not None else "N/A",
-                     _std_delta(["explainability_citation_rate", "std"]), delta_color="off")
-
-        halluc_rate = summary["hallucination"]["hallucination_rate"]
-        col5.metric("5️⃣ Hallucination Rate", f"{halluc_rate:.1%}" if halluc_rate is not None else "N/A",
-                     _std_delta(["hallucination_rate", "std"]), delta_color="inverse")
-
-        if n_runs > 1:
-            st.caption(
-                f"Skor di atas dihitung dari data GABUNGAN (pooled) {n_runs} run terpisah "
-                f"untuk stabilitas statistik. Angka '±' menunjukkan seberapa besar variasi "
-                f"antar-run individual (murni akibat randomness LLM, temperature=0.2)."
-            )
-
-        st.divider()
-
-        if os.path.exists(metrics_png_path):
-            st.image(metrics_png_path, caption="Ringkasan skor 5 dimensi evaluasi (data pooled)")
-
-        if rtr and rtr.get("n_runs", 1) > 1:
-            with st.expander("📊 Variansi Antar-Run (stabilitas statistik)", expanded=False):
-                st.caption(rtr.get("note", ""))
-                var_rows = []
-                labels_map = {
-                    "accuracy": "Accuracy",
-                    "effectiveness_coverage": "Effectiveness (coverage)",
-                    "efficiency_avg_latency_sec": "Efficiency (avg latency, detik)",
-                    "explainability_citation_rate": "Explainability (citation rate)",
-                    "hallucination_rate": "Hallucination rate",
-                }
-                for key, label in labels_map.items():
-                    node = rtr.get(key, {})
-                    values = node.get("values_per_run", [])
-                    std = node.get("std")
-                    var_rows.append({
-                        "Metrik": label,
-                        **{f"Run {i+1}": v for i, v in enumerate(values)},
-                        "Std Dev": std,
-                    })
-                st.dataframe(pd.DataFrame(var_rows))
-
-        # ---------------- DETAIL PER DIMENSI ----------------
-        with st.expander("📌 1. Accuracy — Detail Routing Supervisor", expanded=False):
-            st.markdown(
-                "Mengukur seberapa tepat Supervisor (fine-tuned TF-IDF+LogReg dengan "
-                "fallback LLM) merutekan pertanyaan ke divisi yang benar."
-            )
-            if os.path.exists(cm_path):
-                st.image(cm_path, caption="Confusion Matrix - Supervisor Routing")
-
-            per_class_df = pd.DataFrame(summary["accuracy"]["per_class"]).T
-            per_class_df.index.name = "divisi"
-            st.dataframe(per_class_df.style.format({"precision": "{:.2f}", "recall": "{:.2f}", "f1": "{:.2f}"}))
-
-        with st.expander("📌 2. Effectiveness — Coverage Fakta Data Aktual", expanded=False):
-            st.markdown(
-                "Mengukur seberapa banyak fakta penting (angka, nama bahan/menu/cabang) "
-                "dari data aktual yang benar-benar disebutkan di jawaban akhir agent."
-            )
-            per_div = summary["effectiveness"].get("per_division", {})
-            if per_div:
-                st.bar_chart(pd.Series(per_div, name="coverage_recall"))
-            st.caption(f"Dihitung dari {summary['effectiveness'].get('n_cases_evaluated', 0)} test case "
-                       f"(kategori 'general' tidak dinilai karena tidak ada data/SOP acuan).")
-
-        with st.expander("📌 3. Efficiency — Latency Sistem", expanded=False):
-            e = summary["efficiency"]
-            ecol1, ecol2, ecol3 = st.columns(3)
-            ecol1.metric("Avg latency total", f"{e['avg_latency_total_sec']:.2f}s" if e['avg_latency_total_sec'] else "N/A")
-            ecol2.metric("Median latency total", f"{e['median_latency_total_sec']:.2f}s" if e['median_latency_total_sec'] else "N/A")
-            ecol3.metric("P95 latency total", f"{e['p95_latency_total_sec']:.2f}s" if e['p95_latency_total_sec'] else "N/A")
-            st.metric("Avg latency Supervisor (fine-tuned) saja", f"{e['avg_latency_supervisor_sec']*1000:.0f} ms" if e['avg_latency_supervisor_sec'] else "N/A")
-            st.metric("Fallback ke LLM rate", f"{e['fallback_rate']:.1%}" if e['fallback_rate'] is not None else "N/A")
-            st.caption("Supervisor fine-tuned jauh lebih cepat dari LLM; semakin rendah fallback rate, "
-                       "semakin efisien pipeline routing secara keseluruhan.")
-
-        with st.expander("📌 4. Explainability — Transparansi Sumber Jawaban", expanded=False):
-            ex = summary["explainability"]
-            xcol1, xcol2, xcol3 = st.columns(3)
-            xcol1.metric("Citation rate", f"{ex['citation_rate']:.1%}" if ex['citation_rate'] is not None else "N/A")
-            xcol2.metric("Avg dokumen SOP diretrieve", f"{ex['avg_sop_docs_retrieved']:.1f}" if ex['avg_sop_docs_retrieved'] is not None else "N/A")
-            xcol3.metric("Avg jarak retrieval", f"{ex['avg_retrieval_distance']:.3f}" if ex['avg_retrieval_distance'] is not None else "N/A")
-            st.caption(ex.get("note", ""))
-
-        with st.expander("📌 5. Hallucination — Fakta yang Tidak Terbukti di Konteks", expanded=False):
-            h = summary["hallucination"]
-            hcol1, hcol2 = st.columns(2)
-            hcol1.metric("Avg grounding precision", f"{h['avg_grounding_precision']:.1%}" if h['avg_grounding_precision'] is not None else "N/A")
-            hcol2.metric("Hallucination rate", f"{h['hallucination_rate']:.1%}" if h['hallucination_rate'] is not None else "N/A")
-            st.caption(
-                f"Threshold: jawaban dianggap 'berhalusinasi' jika grounding precision < {h['threshold_used']:.0%}. "
-                f"{h.get('note', '')}"
-            )
-            breakdown = h.get("detection_breakdown", {})
-            if breakdown:
-                bcol1, bcol2 = st.columns(2)
-                bcol1.metric("Dinilai via fact-grounding", breakdown.get("n_cases_fact_based", 0))
-                bcol2.metric("Dinilai via LLM-as-judge", breakdown.get("n_cases_llm_judge_based", 0))
-                verdicts = breakdown.get("llm_judge_verdicts", {})
-                if verdicts:
-                    st.caption(f"Rincian verdict LLM-as-judge: {verdicts}")
-
-        st.divider()
-
-        # ---------------- DETAIL PER TEST CASE ----------------
-        if os.path.exists(detail_path):
-            with st.expander("📋 Lihat detail hasil per pertanyaan uji (semua run)"):
-                detail_df = pd.read_csv(detail_path)
-                show_cols = [
-                    "run", "question", "expected_divisi", "predicted_divisi", "correct",
-                    "latency_total_sec", "citation_present", "coverage_recall",
-                    "grounding_precision", "hallucinated", "hallucination_method",
-                    "llm_judge_verdict",
-                ]
-                show_cols = [c for c in show_cols if c in detail_df.columns]
-                st.dataframe(detail_df[show_cols])
-
-        st.button("🔄 Muat Ulang Hasil Evaluasi", on_click=lambda: st.rerun())
+    st.subheader("Evaluasi Model")
+    st.info(
+        "Tab ini akan menampilkan skor evaluasi sistem multi-agent: "
+        "Accuracy, Effectiveness, Efficiency, Explainability, dan Hallucination Rate.\n\n"
+        "Bagian ini akan diisi setelah skrip evaluasi (`evaluate.py`) dijalankan "
+        "dan hasilnya disimpan ke file CSV."
+    )
