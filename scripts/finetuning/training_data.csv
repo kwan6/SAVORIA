@@ -1,0 +1,154 @@
+question,label
+Ada kekurangan staf shift malam di Savoria Kaliurang?,hr
+Ada kekurangan staf shift malam ?,hr
+Karyawan mana yang sudah 6 hari kerja berturut-turut?,hr
+Berapa total omzet bulan ini ?,finance
+Cek dong stok ayam di cabang di Savoria Malioboro,inventory
+Ada selisih keuangan yang mencurigakan ?,finance
+Apakah ada pembatalan pesanan online hari ini?,order
+Menu apa yang sebaiknya dipromosikan?,order
+Ada bahan baku yang mau habis di Savoria Sudirman?,inventory
+Ada bahan baku yang mau habis di Savoria Malioboro?,inventory
+Tolong cek status stok gudang di Savoria Jakal,inventory
+Kapan kita harus restock kopi?,inventory
+Kapan kita harus restock daging sapi?,inventory
+Gudang di Savoria Prawirotaman kekurangan bahan apa?,inventory
+Menu apa yang paling laris di Savoria Jakal?,order
+Menu terlaris minggu ini apa saja?,order
+Cek jadwal cuti karyawan minggu ini,hr
+Berapa besar selisih pembayaran hari ini?,finance
+Apa menu favorit pelanggan di cabang di Savoria Kaliurang?,order
+Apakah shift malam Jumat sudah terisi penuh?,hr
+Cek dong volume pesanan jam sibuk di Savoria Malioboro,order
+Kenapa laporan keuangan cabang di Savoria Sudirman telat?,finance
+Cek dong stok ayam di cabang di Savoria Sudirman,inventory
+Apa menu favorit pelanggan di cabang di Savoria Sudirman?,order
+Bagaimana distribusi order online vs offline di Savoria Kaliurang?,order
+Cek dong stok ayam di cabang,inventory
+Berapa sisa stok minyak goreng di di Savoria Prawirotaman?,inventory
+Bagaimana performa keuangan cabang bulan ini?,finance
+Cek laporan rekonsiliasi harian dong,finance
+Ada bahan yang mendekati kedaluwarsa tidak di Savoria Malioboro?,inventory
+Ada selisih keuangan yang mencurigakan di Savoria Kaliurang?,finance
+Cek dong komposisi staf shift pagi,hr
+Bagaimana performa order lewat ShopeeFood?,order
+Bahan baku apa saja yang perlu segera dipesan ulang?,inventory
+Gudang di Savoria Malioboro kekurangan bahan apa?,inventory
+Cek dong volume pesanan jam sibuk di Savoria Kaliurang,order
+Kapan kita harus restock gula?,inventory
+Bagaimana performa keuangan cabang di Savoria Jakal bulan ini?,finance
+Bagaimana performa keuangan cabang di Savoria Malioboro bulan ini?,finance
+Apakah audit keuangan bulan ini sudah dilakukan?,finance
+Apakah ada risiko kehabisan bahan baku minggu ini?,inventory
+Apa menu favorit pelanggan di cabang ?,order
+Restoran Savoria buka jam berapa?,general
+Cek selisih antara recorded sales dan bank deposit,finance
+Stok minyak goreng di cabang di Savoria Kaliurang masih cukup tidak?,inventory
+Cek dong stok ayam di cabang di Savoria Prawirotaman,inventory
+Berapa total karyawan aktif di cabang di Savoria Prawirotaman?,hr
+Jadwal shift bentrok tidak minggu ini?,hr
+Ada gap jadwal shift yang belum terisi?,hr
+Ada bahan baku yang mau habis di Savoria Kaliurang?,inventory
+Waiter mana saja yang shift siang hari ini?,hr
+Kapan kita harus restock ayam?,inventory
+Bagaimana distribusi order online vs offline ?,order
+Tolong jelaskan cara kerja AI,general
+Ada selisih keuangan yang mencurigakan di Savoria Malioboro?,finance
+Jam berapa paling ramai pesanan di di Savoria Kaliurang?,order
+Ada komplain soal pesanan yang telat tidak?,order
+Siapa Chef yang bertugas hari ini di Savoria Jakal?,hr
+Apakah komposisi staf sudah sesuai minimum SOP?,hr
+Berapa sisa stok minyak goreng di di Savoria Sudirman?,inventory
+Bahan apa yang paling kritis stoknya ?,inventory
+Gudang kekurangan bahan apa?,inventory
+Bisa rekomendasikan resep masakan?,general
+Cek dong stok ayam di cabang di Savoria Jakal,inventory
+Perlu restock apa saja hari ini?,inventory
+Cek dong komposisi staf shift pagi di Savoria Prawirotaman,hr
+Berapa sisa stok minyak goreng di di Savoria Jakal?,inventory
+Berapa sisa stok minyak goreng di di Savoria Malioboro?,inventory
+Terima kasih atas bantuannya,general
+Ada bahan yang mendekati kedaluwarsa tidak ?,inventory
+Ceritakan sejarah kopi,general
+Kenapa laporan keuangan cabang di Savoria Prawirotaman telat?,finance
+Sisa stok beras berapa ya di di Savoria Kaliurang?,inventory
+Siapa pendiri Savoria?,general
+Berapa total omzet bulan ini di Savoria Malioboro?,finance
+Order dine-in atau online yang lebih banyak di Savoria Kaliurang?,order
+Bahan mana yang statusnya waspada sekarang?,inventory
+Cek dong komposisi staf shift pagi di Savoria Jakal,hr
+Bagaimana cara membuat kue coklat?,general
+Berapa banyak pesanan dari GoFood hari ini?,order
+Ada kekurangan staf shift malam di Savoria Jakal?,hr
+Ada kekurangan staf shift malam di Savoria Prawirotaman?,hr
+Menu apa yang paling laris di Savoria Kaliurang?,order
+Stok beras di cabang masih cukup tidak?,inventory
+Butuh tambahan staf tidak untuk weekend ini?,hr
+Berapa total karyawan aktif di cabang di Savoria Sudirman?,hr
+Sisa stok beras berapa ya di di Savoria Malioboro?,inventory
+Ada bahan yang mendekati kedaluwarsa tidak di Savoria Sudirman?,inventory
+Kanal mana yang paling banyak dipakai pelanggan?,order
+Cek dong volume pesanan jam sibuk di Savoria Sudirman,order
+Info stok bahan baku terbaru dong,inventory
+Cek dong rekonsiliasi bank hari ini,finance
+Stok ayam di cabang di Savoria Malioboro masih cukup tidak?,inventory
+Gudang di Savoria Kaliurang kekurangan bahan apa?,inventory
+Order dine-in atau online yang lebih banyak di Savoria Jakal?,order
+Bisa bantu apa saja kamu?,general
+Kenapa laporan keuangan cabang di Savoria Malioboro telat?,finance
+Ada kekurangan staf shift malam di Savoria Malioboro?,hr
+Apakah ada indikasi kebocoran keuangan?,finance
+"Halo, kamu siapa?",general
+Siapa saja yang jaga weekend ini di Savoria Sudirman?,hr
+Stok daging sapi di cabang di Savoria Malioboro masih cukup tidak?,inventory
+Ada bahan baku yang mau habis di Savoria Prawirotaman?,inventory
+Kenapa laporan keuangan cabang di Savoria Jakal telat?,finance
+Apa kabar hari ini?,general
+Bahan apa yang paling kritis stoknya di Savoria Kaliurang?,inventory
+Ada bahan baku yang mau habis ?,inventory
+Ada bahan yang mendekati kedaluwarsa tidak di Savoria Jakal?,inventory
+Order dine-in atau online yang lebih banyak di Savoria Prawirotaman?,order
+Bagaimana performa keuangan cabang di Savoria Prawirotaman bulan ini?,finance
+Stok gula di cabang di Savoria Prawirotaman masih cukup tidak?,inventory
+Berapa total omzet bulan ini di Savoria Prawirotaman?,finance
+Siapa Chef yang bertugas hari ini di Savoria Prawirotaman?,hr
+Bahan apa yang paling kritis stoknya di Savoria Jakal?,inventory
+Apa menu favorit pelanggan di cabang di Savoria Prawirotaman?,order
+Bagaimana distribusi order online vs offline di Savoria Jakal?,order
+Berapa total karyawan aktif di cabang di Savoria Kaliurang?,hr
+Menu apa yang paling laris di Savoria Sudirman?,order
+Apakah ada discrepancy di atas Rp 50.000?,finance
+Sisa stok beras berapa ya di ?,inventory
+Apa rekomendasi liburan akhir pekan?,general
+Menu mana yang penjualannya menurun?,order
+Apa itu machine learning?,general
+Bagaimana tren penjualan menu baru?,order
+Jam berapa paling ramai pesanan di di Savoria Prawirotaman?,order
+Berapa jumlah karyawan yang libur hari ini?,hr
+Gudang di Savoria Jakal kekurangan bahan apa?,inventory
+Berapa total pendapatan dari GrabFood minggu ini?,finance
+Jam berapa paling ramai pesanan di di Savoria Malioboro?,order
+Sisa stok beras berapa ya di di Savoria Jakal?,inventory
+Siapa saja yang jaga weekend ini ?,hr
+Tolong cek status stok gudang di Savoria Malioboro,inventory
+Jam berapa paling ramai pesanan di ?,order
+Apa filosofi nama Savoria?,general
+Omzet cabang mana yang paling tinggi?,finance
+Ada bahan yang mendekati kedaluwarsa tidak di Savoria Prawirotaman?,inventory
+Bagaimana cuaca hari ini?,general
+Bahan apa yang paling kritis stoknya di Savoria Malioboro?,inventory
+Menu apa yang paling laris ?,order
+Ada potongan biaya platform yang belum tercatat?,finance
+Siapa Chef yang bertugas hari ini di Savoria Sudirman?,hr
+Bagaimana rotasi shift bulan ini?,hr
+Berapa total omzet bulan ini di Savoria Sudirman?,finance
+Siapa saja yang jaga weekend ini di Savoria Kaliurang?,hr
+Cek dong volume pesanan jam sibuk di Savoria Jakal,order
+Bagaimana tren omzet dibanding bulan lalu?,finance
+Apa menu favoritmu?,general
+Tolong cek status stok gudang di Savoria Kaliurang,inventory
+Order dine-in atau online yang lebih banyak ?,order
+Berapa total karyawan aktif di cabang di Savoria Jakal?,hr
+Ada bahan baku yang mau habis di Savoria Jakal?,inventory
+Cek dong komposisi staf shift pagi di Savoria Kaliurang,hr
+Siapa Chef yang bertugas hari ini ?,hr
