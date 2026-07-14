@@ -14,6 +14,7 @@ Cara jalankan (dari folder savoria_project):
 import sys
 import os
 import time
+import datetime
 import pandas as pd
 import streamlit as st
 
@@ -23,7 +24,156 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "scripts"))
 import graph_savoria  # noqa: E402
 import data_tools as dt  # noqa: E402
 
-st.set_page_config(page_title="Savoria Command Center", page_icon="🍽️", layout="wide")
+st.set_page_config(page_title="SAVORIA", page_icon="🍽️", layout="wide")
+
+# ------------------------------------------------------------------
+# STYLE: palet warna Savoria (tetap dipakai, tidak diganti)
+#   Primary   : #8B5E3C (Coffee Brown)
+#   Secondary : #DCC7AA (Cream)
+#   Success   : #2E7D32
+#   Warning   : #F57C00
+#   Danger    : #C62828
+#   Background: #F8F6F3
+# ------------------------------------------------------------------
+CUSTOM_CSS = """
+<style>
+:root{
+    --sv-primary: #8B5E3C;
+    --sv-primary-dark: #6E4A2E;
+    --sv-secondary: #DCC7AA;
+    --sv-bg: #F8F6F3;
+    --sv-success: #2E7D32;
+    --sv-warning: #F57C00;
+    --sv-danger: #C62828;
+}
+
+.stApp{
+    background: radial-gradient(circle at 20% 0%, #F3EAE0 0%, var(--sv-bg) 45%, #EFE6DA 100%);
+}
+
+/* Padding rapi di sekeliling konten */
+.block-container{
+    padding-top: 2.8rem;
+    max-width: 1100px;
+}
+
+/* ---------------- Header judul dashboard ---------------- */
+.sv-header{
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(139, 94, 60, 0.15);
+}
+.sv-header-title{
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--sv-primary-dark);
+    line-height: 1.3;
+}
+.sv-header-caption{
+    font-size: 0.88rem;
+    color: #9c8c7c;
+    margin-top: 0.1rem;
+}
+
+/* ---------------- Filter cabang: dropdown kecil di kanan ---------------- */
+div[data-testid="stSelectbox"]{
+    margin-top: 0.15rem;
+}
+div[data-testid="stSelectbox"] > div > div{
+    border-radius: 8px;
+    border: 1px solid var(--sv-secondary);
+    background-color: #FFFFFF;
+    font-size: 0.85rem;
+    min-height: 2.1rem;
+}
+
+/* ---------------- Greeting screen (state kosong) ---------------- */
+.sv-greeting-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 2rem 1rem 1.2rem 1rem;
+}
+.sv-greeting-title{
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--sv-primary-dark);
+    line-height: 1.35;
+    margin-bottom: 0.2rem;
+}
+.sv-greeting-sub{
+    font-size: 1.05rem;
+    color: #8a7b6c;
+    margin-bottom: 1.8rem;
+}
+
+/* ---------------- Suggestion pill buttons ---------------- */
+div[data-testid="stHorizontalBlock"] div.stButton > button{
+    background-color: #FFFFFF;
+    border: 1px solid var(--sv-secondary);
+    color: var(--sv-primary-dark);
+    border-radius: 999px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(139, 94, 60, 0.08);
+    transition: all 0.15s ease-in-out;
+    width: 100%;
+}
+div[data-testid="stHorizontalBlock"] div.stButton > button:hover{
+    background-color: var(--sv-secondary);
+    border-color: var(--sv-primary);
+    color: var(--sv-primary-dark);
+}
+
+/* ---------------- Chat input: bulat mirip "Ask anything" ---------------- */
+div[data-testid="stChatInput"]{
+    border: 1px solid var(--sv-secondary);
+    border-radius: 28px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(139, 94, 60, 0.10);
+}
+div[data-testid="stChatInput"] textarea{
+    color: var(--sv-primary-dark) !important;
+}
+
+/* ---------------- Chat bubbles ---------------- */
+div[data-testid="stChatMessage"]{
+    background-color: #FFFFFF;
+    border: 1px solid rgba(220, 199, 170, 0.6);
+    border-radius: 16px;
+    padding: 0.4rem 0.8rem;
+    box-shadow: 0 1px 4px rgba(139, 94, 60, 0.06);
+}
+
+/* ---------------- Tabs ---------------- */
+button[data-baseweb="tab"]{
+    font-weight: 600;
+}
+button[data-baseweb="tab"][aria-selected="true"]{
+    color: var(--sv-primary) !important;
+}
+div[data-baseweb="tab-highlight"]{
+    background-color: var(--sv-primary) !important;
+}
+</style>
+"""
+st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+
+
+def get_greeting() -> str:
+    """Sapaan dinamis sesuai jam, gaya seperti 'Good afternoon'."""
+    hour = datetime.datetime.now().hour
+    if 4 <= hour < 11:
+        return "Selamat pagi"
+    elif 11 <= hour < 15:
+        return "Selamat siang"
+    elif 15 <= hour < 19:
+        return "Selamat sore"
+    else:
+        return "Selamat malam"
 
 # ------------------------------------------------------------------
 # CACHE: build graph & load data sekali saja
@@ -54,75 +204,118 @@ app_graph = load_graph()
 branches_df = load_branches()
 data = load_all_data()
 
-st.title("🍽️ Savoria Command Center")
-st.caption("Dashboard Multi-Agent AI untuk Manajemen Savoria Resto Group")
+st.markdown(
+    """
+    <div class="sv-header">
+        <div class="sv-header-title">Savoria Command Center</div>
+        <div class="sv-header-caption">Dashboard Multi-Agent AI untuk Manajemen Savoria Resto Group</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 tab_chat, tab_monitor, tab_eval = st.tabs(["💬 Chat", "📊 Monitoring Cabang", "✅ Evaluasi Model"])
 
 # ==================================================================
 # TAB 1: CHAT
 # ==================================================================
-with tab_chat:
-    st.subheader("Tanya ke Savoria AI Assistant")
-    st.caption("Sistem akan otomatis merutekan pertanyaanmu ke Agent Divisi yang tepat "
-               "(Inventory / Order / HR / Finance).")
+SUGGESTIONS = [
+    ("📦", "Cek stok kritis", "Bahan apa yang paling kritis stoknya hari ini?"),
+    ("📈", "Analisis omzet", "Bagaimana tren omzet 7 hari terakhir?"),
+    ("👥", "Info shift karyawan", "Siapa saja yang shift hari ini?"),
+    ("📋", "Cari SOP terkait", "Apa SOP untuk penanganan selisih kas?"),
+]
 
-    branch_filter = st.selectbox(
-        "Filter cabang (opsional)",
-        options=["Semua Cabang"] + branches_df["branch_name"].tolist(),
-        key="chat_branch_filter",
-    )
+
+def process_question(question: str, branch_id_selected):
+    """Kirim pertanyaan ke graph multi-agent & simpan hasilnya ke riwayat chat."""
+    st.session_state.chat_history.append({"role": "user", "content": question})
+
+    with st.spinner("Menganalisis dan merutekan ke agent yang tepat..."):
+        start = time.time()
+        state = {
+            "question": question,
+            "branch_id": branch_id_selected,
+            "divisi": None,
+            "result": None,
+        }
+        final_state = app_graph.invoke(state)
+        elapsed = time.time() - start
+        result = final_state["result"]
+
+    st.session_state.chat_history.append({
+        "role": "assistant",
+        "content": f"**[Agent {result['agent']}]**\n\n{result['answer']}",
+        "sources": result["sop_sources"],
+        "elapsed": elapsed,
+    })
+
+
+with tab_chat:
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+
+    header_left, header_right = st.columns([5, 1.4])
+    with header_right:
+        branch_filter = st.selectbox(
+            "Cabang",
+            options=["Semua Cabang"] + branches_df["branch_name"].tolist(),
+            key="chat_branch_filter",
+            label_visibility="collapsed",
+        )
     branch_id_selected = None
     if branch_filter != "Semua Cabang":
         branch_id_selected = branches_df[branches_df["branch_name"] == branch_filter]["branch_id"].values[0]
 
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
+    # ---------------------------------------------------------
+    # LAYAR AWAL (belum ada percakapan): greeting + ask-bar + saran
+    # ---------------------------------------------------------
+    if not st.session_state.chat_history:
+        st.markdown(
+            f"""
+            <div class="sv-greeting-wrap">
+                <div class="sv-greeting-title">{get_greeting()}, Manajer 👋<br>Ada yang bisa dibantu hari ini?</div>
+                <div class="sv-greeting-sub">Tanya apa saja soal stok, omzet, shift, atau SOP cabang Savoria.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-    for msg in st.session_state.chat_history:
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
-            if msg["role"] == "assistant" and msg.get("sources"):
-                with st.expander("Lihat sumber SOP yang dipakai"):
-                    for src in msg["sources"]:
-                        st.markdown(f"- {src}")
+        question = st.chat_input("Tanya apa saja...")
 
-    question = st.chat_input("Tulis pertanyaan, misal: 'Bahan apa yang paling kritis stoknya?'")
+        cols = st.columns(len(SUGGESTIONS))
+        for col, (icon, label, prompt_text) in zip(cols, SUGGESTIONS):
+            with col:
+                if st.button(f"{icon} {label}", key=f"sugg_{label}", use_container_width=True):
+                    question = prompt_text
 
-    if question:
-        st.session_state.chat_history.append({"role": "user", "content": question})
-        with st.chat_message("user"):
-            st.markdown(question)
+        if question:
+            process_question(question, branch_id_selected)
+            st.rerun()
 
-        with st.chat_message("assistant"):
-            with st.spinner("Menganalisis dan merutekan ke agent yang tepat..."):
-                start = time.time()
-                state = {
-                    "question": question,
-                    "branch_id": branch_id_selected,
-                    "divisi": None,
-                    "result": None,
-                }
-                final_state = app_graph.invoke(state)
-                elapsed = time.time() - start
-                result = final_state["result"]
+    # ---------------------------------------------------------
+    # LAYAR PERCAKAPAN (sudah ada riwayat chat)
+    # ---------------------------------------------------------
+    else:
+        st.caption("Sistem akan otomatis merutekan pertanyaanmu ke Agent Divisi yang tepat "
+                   "(Inventory / Order / HR / Finance).")
 
-            st.markdown(f"**[Agent {result['agent']}]**")
-            st.markdown(result["answer"])
-            st.caption(f"⏱️ Waktu respons: {elapsed:.1f} detik")
+        for msg in st.session_state.chat_history:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+                if msg["role"] == "assistant":
+                    if msg.get("elapsed") is not None:
+                        st.caption(f"⏱️ Waktu respons: {msg['elapsed']:.1f} detik")
+                    if msg.get("sources"):
+                        with st.expander("Lihat sumber SOP yang dipakai"):
+                            for src in msg["sources"]:
+                                st.markdown(f"- {src}")
 
-            if result["sop_sources"]:
-                with st.expander("Lihat sumber SOP yang dipakai"):
-                    for src in result["sop_sources"]:
-                        st.markdown(f"- {src}")
+        question = st.chat_input("Tanya apa saja...")
+        if question:
+            process_question(question, branch_id_selected)
+            st.rerun()
 
-        st.session_state.chat_history.append({
-            "role": "assistant",
-            "content": f"**[Agent {result['agent']}]**\n\n{result['answer']}",
-            "sources": result["sop_sources"],
-        })
-
-    if st.session_state.chat_history:
         if st.button("🗑️ Bersihkan Riwayat Chat"):
             st.session_state.chat_history = []
             st.rerun()
