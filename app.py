@@ -35,132 +35,14 @@ st.set_page_config(page_title="SAVORIA", page_icon="🍽️", layout="wide")
 #   Danger    : #C62828
 #   Background: #F8F6F3
 # ------------------------------------------------------------------
-CUSTOM_CSS = """
-<style>
-:root{
-    --sv-primary: #8B5E3C;
-    --sv-primary-dark: #6E4A2E;
-    --sv-secondary: #DCC7AA;
-    --sv-bg: #F8F6F3;
-    --sv-success: #2E7D32;
-    --sv-warning: #F57C00;
-    --sv-danger: #C62828;
-}
 
-.stApp{
-    background: radial-gradient(circle at 20% 0%, #F3EAE0 0%, var(--sv-bg) 45%, #EFE6DA 100%);
-}
+from pathlib import Path
 
-/* Padding rapi di sekeliling konten */
-.block-container{
-    padding-top: 2.8rem;
-    max-width: 1100px;
-}
+BASE_DIR = Path(__file__).parent
+CSS_FILE = BASE_DIR / "assets" / "styles.css"
 
-/* ---------------- Header judul dashboard ---------------- */
-.sv-header{
-    padding-bottom: 0.6rem;
-    margin-bottom: 0.4rem;
-    border-bottom: 1px solid rgba(139, 94, 60, 0.15);
-}
-.sv-header-title{
-    font-size: 1.7rem;
-    font-weight: 700;
-    color: var(--sv-primary-dark);
-    line-height: 1.3;
-}
-.sv-header-caption{
-    font-size: 0.88rem;
-    color: #9c8c7c;
-    margin-top: 0.1rem;
-}
-
-/* ---------------- Filter cabang: dropdown kecil di kanan ---------------- */
-div[data-testid="stSelectbox"]{
-    margin-top: 0.15rem;
-}
-div[data-testid="stSelectbox"] > div > div{
-    border-radius: 8px;
-    border: 1px solid var(--sv-secondary);
-    background-color: #FFFFFF;
-    font-size: 0.85rem;
-    min-height: 2.1rem;
-}
-
-/* ---------------- Greeting screen (state kosong) ---------------- */
-.sv-greeting-wrap{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding: 2rem 1rem 1.2rem 1rem;
-}
-.sv-greeting-title{
-    font-size: 2.1rem;
-    font-weight: 700;
-    color: var(--sv-primary-dark);
-    line-height: 1.35;
-    margin-bottom: 0.2rem;
-}
-.sv-greeting-sub{
-    font-size: 1.05rem;
-    color: #8a7b6c;
-    margin-bottom: 1.8rem;
-}
-
-/* ---------------- Suggestion pill buttons ---------------- */
-div[data-testid="stHorizontalBlock"] div.stButton > button{
-    background-color: #FFFFFF;
-    border: 1px solid var(--sv-secondary);
-    color: var(--sv-primary-dark);
-    border-radius: 999px;
-    padding: 0.5rem 1.1rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    box-shadow: 0 1px 3px rgba(139, 94, 60, 0.08);
-    transition: all 0.15s ease-in-out;
-    width: 100%;
-}
-div[data-testid="stHorizontalBlock"] div.stButton > button:hover{
-    background-color: var(--sv-secondary);
-    border-color: var(--sv-primary);
-    color: var(--sv-primary-dark);
-}
-
-/* ---------------- Chat input: bulat mirip "Ask anything" ---------------- */
-div[data-testid="stChatInput"]{
-    border: 1px solid var(--sv-secondary);
-    border-radius: 28px;
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 16px rgba(139, 94, 60, 0.10);
-}
-div[data-testid="stChatInput"] textarea{
-    color: var(--sv-primary-dark) !important;
-}
-
-/* ---------------- Chat bubbles ---------------- */
-div[data-testid="stChatMessage"]{
-    background-color: #FFFFFF;
-    border: 1px solid rgba(220, 199, 170, 0.6);
-    border-radius: 16px;
-    padding: 0.4rem 0.8rem;
-    box-shadow: 0 1px 4px rgba(139, 94, 60, 0.06);
-}
-
-/* ---------------- Tabs ---------------- */
-button[data-baseweb="tab"]{
-    font-weight: 600;
-}
-button[data-baseweb="tab"][aria-selected="true"]{
-    color: var(--sv-primary) !important;
-}
-div[data-baseweb="tab-highlight"]{
-    background-color: var(--sv-primary) !important;
-}
-</style>
-"""
-st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+css = Path("assets/styles.css").read_text(encoding="utf-8")
+st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 
 def get_greeting() -> str:
@@ -207,23 +89,59 @@ data = load_all_data()
 st.markdown(
     """
     <div class="sv-header">
-        <div class="sv-header-title">Savoria Command Center</div>
-        <div class="sv-header-caption">Dashboard Multi-Agent AI untuk Manajemen Savoria Resto Group</div>
+
+        <div class="sv-header-title">
+            Savoria Command Center
+        </div>
+
+        <div class="sv-header-caption">
+            Dashboard Multi-Agent AI untuk Manajemen Operasional Savoria Resto Group
+        </div>
+
     </div>
     """,
     unsafe_allow_html=True,
 )
 
-tab_chat, tab_monitor, tab_eval = st.tabs(["💬 Chat", "📊 Monitoring Cabang", "✅ Evaluasi Model"])
+tab_chat, tab_monitor, tab_eval = st.tabs([
+    "Chat",
+    "Monitoring",
+    "Evaluasi"
+])
 
 # ==================================================================
 # TAB 1: CHAT
 # ==================================================================
 SUGGESTIONS = [
-    ("📦", "Cek stok kritis", "Bahan apa yang paling kritis stoknya hari ini?"),
-    ("📈", "Analisis omzet", "Bagaimana tren omzet 7 hari terakhir?"),
-    ("👥", "Info shift karyawan", "Siapa saja yang shift hari ini?"),
-    ("📋", "Cari SOP terkait", "Apa SOP untuk penanganan selisih kas?"),
+
+    (
+        "📦",
+        "Cek stok kritis",
+        "Lihat bahan baku yang stoknya hampir habis.",
+        "Bahan apa yang paling kritis stoknya hari ini?"
+    ),
+
+    (
+        "📈",
+        "Analisis omzet",
+        "Analisis performa penjualan cabang.",
+        "Bagaimana tren omzet 7 hari terakhir?"
+    ),
+
+    (
+        "👥",
+        "Info Shift",
+        "Informasi jadwal karyawan.",
+        "Siapa saja yang shift hari ini?"
+    ),
+
+    (
+        "📋",
+        "Cari SOP",
+        "Temukan SOP yang relevan.",
+        "Apa SOP untuk penanganan selisih kas?"
+    )
+
 ]
 
 
@@ -271,34 +189,184 @@ with tab_chat:
     # LAYAR AWAL (belum ada percakapan): greeting + ask-bar + saran
     # ---------------------------------------------------------
     if not st.session_state.chat_history:
-        st.markdown(
+
+    st.markdown(
+                f"""
+        <div class="sv-greeting-wrap">
+
+            <div class="sv-greeting-title">
+                {get_greeting()}, Manajer
+            </div>
+
+            <div class="sv-greeting-sub">
+                AI siap membantu operasional seluruh cabang Savoria.<br>
+                Analisis stok, omzet, shift, SOP, hingga performa bisnis dalam satu dashboard.
+            </div>
+
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.markdown(
             f"""
-            <div class="sv-greeting-wrap">
-                <div class="sv-greeting-title">{get_greeting()}, Manajer 👋<br>Ada yang bisa dibantu hari ini?</div>
-                <div class="sv-greeting-sub">Tanya apa saja soal stok, omzet, shift, atau SOP cabang Savoria.</div>
+            <div class="sv-dashboard-grid">
+                <div class="sv-card">
+                    <div class="sv-card-label">
+                        TOTAL CABANG
+                    </div>
+                    <div class="sv-card-value">
+                        {len(branches_df)}
+                    </div>
+                    <div class="sv-card-sub">
+                        Cabang Aktif
+                    </div>
+
+                </div>
+
+                <div class="sv-card">
+                    <div class="sv-card-label">
+                        AI AGENT
+                    </div>
+                    <div class="sv-card-value">
+                        5
+                    </div>
+                    <div class="sv-card-sub">
+                        Agent Online
+                    </div>
+
+                </div>
+
+                <div class="sv-card">
+                    <div class="sv-card-label">
+                        DOKUMEN SOP
+                    </div>
+                    <div class="sv-card-value">
+                        248
+                    </div>
+                    <div class="sv-card-sub">
+                        SOP Tersedia
+                    </div>
+
+                </div>
+
+                <div class="sv-card">
+                    <div class="sv-card-label">
+                        STATUS
+                    </div>
+                    <div class="sv-card-value">
+                        Online
+                    </div>
+                    <div class="sv-card-sub">
+                        Semua sistem normal
+                    </div>
+
+                </div>
+
             </div>
             """,
-            unsafe_allow_html=True,
+            unsafe_allow_html=True
+            )
+    
+    st.markdown(
+        """
+        <div style="
+        text-align:center;
+        margin-top:8px;
+        margin-bottom:26px;
+        color:#8a7b6c;
+        font-size:14px;
+        ">
+
+        Seluruh agent AI aktif dan siap membantu analisis operasional.
+
+        </div>
+        """,
+        unsafe_allow_html=True
         )
+    st.markdown("<br>", unsafe_allow_html=True)
 
-        question = st.chat_input("Tanya apa saja...")
+    st.markdown(
+                """
+        <div style="
+        text-align:center;
+        font-size:15px;
+        color:#8a7b6c;
+        margin-bottom:14px;
+        ">
 
-        cols = st.columns(len(SUGGESTIONS))
-        for col, (icon, label, prompt_text) in zip(cols, SUGGESTIONS):
+        Apa yang ingin Anda analisis hari ini?
+
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div style="
+        text-align:center;
+        font-size:15px;
+        font-weight:600;
+        color:#8B5E3C;
+        margin-bottom:18px;
+        ">
+
+        Aksi Cepat
+
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+    cols = st.columns(len(SUGGESTIONS))
+    for col, (icon, label, prompt_text) in zip(cols, SUGGESTIONS):
+
             with col:
-                if st.button(f"{icon} {label}", key=f"sugg_{label}", use_container_width=True):
+
+                if st.button(
+                    f"{icon} {label}",
+                    key=f"sugg_{label}",
+                    use_container_width=True
+                ):
                     question = prompt_text
 
-        if question:
-            process_question(question, branch_id_selected)
-            st.rerun()
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    question = st.chat_input(
+            "Contoh: Bagaimana omzet minggu ini di Cabang Malioboro?"
+        )
+
+    for col, (icon, label, prompt_text) in zip(cols, SUGGESTIONS):
+
+        with col:
+
+            if st.button(
+                f"{icon} {label}",
+                key=f"sugg_{label}",
+                use_container_width=True
+            ):
+
+                question = prompt_text
+
+    if question:
+
+        process_question(
+            question,
+            branch_id_selected
+        )
+
+        st.rerun()
 
     # ---------------------------------------------------------
     # LAYAR PERCAKAPAN (sudah ada riwayat chat)
     # ---------------------------------------------------------
     else:
-        st.caption("Sistem akan otomatis merutekan pertanyaanmu ke Agent Divisi yang tepat "
-                   "(Inventory / Order / HR / Finance).")
+        st.info(
+            "AI akan memilih agent yang paling sesuai secara otomatis berdasarkan konteks pertanyaan Anda."
+        )
 
         for msg in st.session_state.chat_history:
             with st.chat_message(msg["role"]):
