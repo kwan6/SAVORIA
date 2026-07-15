@@ -18,6 +18,12 @@ savoria_project/
 │   ├── sop_hr.txt
 │   └── sop_finance.txt
 │
+├── .streamlit/
+│   └── config.toml
+│
+├── assets/
+│   └── styles.css
+│
 ├── scripts/
 │   ├── build_vectorstore.py     # Embed SOP -> simpan ke ChromaDB
 │   ├── test_retrieval.py        # Pengujian retrieval
