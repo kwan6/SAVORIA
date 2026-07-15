@@ -1,14 +1,6 @@
 """
 app.py
 Dashboard Streamlit untuk Savoria Multi-Agent System.
-
-Terdiri dari 3 tab:
-1. Chat        - tanya jawab langsung ke sistem multi-agent
-2. Monitoring  - visualisasi kondisi tiap cabang (stok, omzet, shift)
-3. Evaluasi    - placeholder untuk skor evaluasi model (diisi di tahap berikutnya)
-
-Cara jalankan (dari folder savoria_project):
-    streamlit run app.py
 """
 
 import sys
@@ -24,26 +16,22 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "scripts"))
 import graph_savoria  # noqa: E402
 import data_tools as dt  # noqa: E402
 
-st.set_page_config(page_title="SAVORIA", page_icon="🍽️", layout="wide")
+st.set_page_config(
+    page_title="SAVORIA",
+    layout="wide"
+)
 
-# ------------------------------------------------------------------
-# STYLE: palet warna Savoria (tetap dipakai, tidak diganti)
-#   Primary   : #8B5E3C (Coffee Brown)
-#   Secondary : #DCC7AA (Cream)
-#   Success   : #2E7D32
-#   Warning   : #F57C00
-#   Danger    : #C62828
-#   Background: #F8F6F3
-# ------------------------------------------------------------------
-
-from pathlib import Path
-
-BASE_DIR = Path(__file__).parent
-CSS_FILE = BASE_DIR / "assets" / "styles.css"
-
-css = Path("assets/styles.css").read_text(encoding="utf-8")
-st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
-
+def load_css():
+    with open("assets/styles.css", encoding="utf-8") as f:
+        st.markdown(
+            f"""
+            <style>
+            {f.read()}
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+load_css()
 
 def get_greeting() -> str:
     """Sapaan dinamis sesuai jam, gaya seperti 'Good afternoon'."""
@@ -57,18 +45,13 @@ def get_greeting() -> str:
     else:
         return "Selamat malam"
 
-# ------------------------------------------------------------------
-# CACHE: build graph & load data sekali saja
-# ------------------------------------------------------------------
 @st.cache_resource
 def load_graph():
     return graph_savoria.build_graph()
 
-
 @st.cache_data
 def load_branches():
     return dt._load("branches.csv")
-
 
 @st.cache_data
 def load_all_data():
@@ -81,74 +64,84 @@ def load_all_data():
         "ingredients": dt._load("ingredients.csv"),
     }
 
-
 app_graph = load_graph()
 branches_df = load_branches()
 data = load_all_data()
 
-st.markdown(
-    """
-    <div class="sv-header">
+# ==================================================================
+# HEADER: PENJELASAN VERTIKAL MAJU KE BAWAH & SEJAJAR TENGAH PERFECT
+# ==================================================================
+# Menambah space kosong yang cukup dari batas atas browser agar layout bernafas
+st.markdown("<div style='margin-top: 55px;'></div>", unsafe_allow_html=True)
 
-        <div class="sv-header-title">
+# Membuat kolom pembagi judul dan dropdown
+top_col1, top_col2 = st.columns([4, 1.2])
+
+with top_col1:
+    st.markdown(
+        """
+        <h1 style="font-size: 2.2rem; font-weight: 700; color: #F2E9DD; margin: 0; padding: 0; line-height: 1.2;">
             Savoria Command Center
-        </div>
+        </h1>
+        """,
+        unsafe_allow_html=True,
+    )
 
-        <div class="sv-header-caption">
-            Dashboard Multi-Agent AI untuk Manajemen Operasional Savoria Resto Group
-        </div>
+with top_col2:
+    # Memaksa dropdown turun lebih banyak ke bawah dengan margin-top 14px agar selaras dengan baseline teks judul
+    st.markdown("<div style='margin-top: 14px;'></div>", unsafe_allow_html=True)
+    branch_filter = st.selectbox(
+        "Cabang",
+        options=["Semua Cabang"] + branches_df["branch_name"].tolist(),
+        key="chat_branch_filter",
+        label_visibility="collapsed",
+    )
 
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+branch_id_selected = None
+if branch_filter != "Semua Cabang":
+    branch_id_selected = branches_df[branches_df["branch_name"] == branch_filter]["branch_id"].values[0]
+
+# Memberikan sedikit ruang sebelum masuk ke komponen Tab navigasi
+st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
 
 tab_chat, tab_monitor, tab_eval = st.tabs([
-    "Chat",
-    "Monitoring",
-    "Evaluasi"
+    ":material/chat: Chat",
+    ":material/monitoring: Monitoring",
+    ":material/query_stats: Evaluasi"
 ])
 
 # ==================================================================
 # TAB 1: CHAT
 # ==================================================================
 SUGGESTIONS = [
-
     (
-        "📦",
-        "Cek stok kritis",
+        ":material/inventory_2:",
+        "Cek Stok Kritis",
         "Lihat bahan baku yang stoknya hampir habis.",
         "Bahan apa yang paling kritis stoknya hari ini?"
     ),
-
     (
-        "📈",
-        "Analisis omzet",
+        ":material/trending_up:",
+        "Analisis Omzet",
         "Analisis performa penjualan cabang.",
         "Bagaimana tren omzet 7 hari terakhir?"
     ),
-
     (
-        "👥",
+        ":material/groups:",
         "Info Shift",
         "Informasi jadwal karyawan.",
         "Siapa saja yang shift hari ini?"
     ),
-
     (
-        "📋",
+        ":material/description:",
         "Cari SOP",
         "Temukan SOP yang relevan.",
         "Apa SOP untuk penanganan selisih kas?"
     )
-
 ]
 
-
 def process_question(question: str, branch_id_selected):
-    """Kirim pertanyaan ke graph multi-agent & simpan hasilnya ke riwayat chat."""
     st.session_state.chat_history.append({"role": "user", "content": question})
-
     with st.spinner("Menganalisis dan merutekan ke agent yang tepat..."):
         start = time.time()
         state = {
@@ -162,218 +155,63 @@ def process_question(question: str, branch_id_selected):
         result = final_state["result"]
 
     st.session_state.chat_history.append({
-        "role": "assistant",
-        "content": f"**[Agent {result['agent']}]**\n\n{result['answer']}",
-        "sources": result["sop_sources"],
-        "elapsed": elapsed,
-    })
-
+            "role":"assistant",
+            "agent": result["agent"],
+            "content": result["answer"],
+            "sources": result["sop_sources"],
+            "elapsed": elapsed,
+        })
 
 with tab_chat:
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    header_left, header_right = st.columns([5, 1.4])
-    with header_right:
-        branch_filter = st.selectbox(
-            "Cabang",
-            options=["Semua Cabang"] + branches_df["branch_name"].tolist(),
-            key="chat_branch_filter",
-            label_visibility="collapsed",
-        )
-    branch_id_selected = None
-    if branch_filter != "Semua Cabang":
-        branch_id_selected = branches_df[branches_df["branch_name"] == branch_filter]["branch_id"].values[0]
-
     # ---------------------------------------------------------
-    # LAYAR AWAL (belum ada percakapan): greeting + ask-bar + saran
+    # LAYAR AWAL: Greeting + Perbaikan Chip Icon Profesional
     # ---------------------------------------------------------
     if not st.session_state.chat_history:
-
-    st.markdown(
-                f"""
-        <div class="sv-greeting-wrap">
-
-            <div class="sv-greeting-title">
-                {get_greeting()}, Manajer
-            </div>
-
-            <div class="sv-greeting-sub">
-                AI siap membantu operasional seluruh cabang Savoria.<br>
-                Analisis stok, omzet, shift, SOP, hingga performa bisnis dalam satu dashboard.
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.markdown(
+        st.markdown(
             f"""
-            <div class="sv-dashboard-grid">
-                <div class="sv-card">
-                    <div class="sv-card-label">
-                        TOTAL CABANG
-                    </div>
-                    <div class="sv-card-value">
-                        {len(branches_df)}
-                    </div>
-                    <div class="sv-card-sub">
-                        Cabang Aktif
-                    </div>
-
+            <div class="sv-greeting-wrap">
+                <div class="sv-greeting-title">{get_greeting()}, Manajer</div>
+                <div class="sv-agent-list">
+                    <span class="sv-chip"><i class="material-icons">inventory_2</i> Inventory</span>
+                    <span class="sv-chip"><i class="material-icons">payments</i> Finance</span>
+                    <span class="sv-chip"><i class="material-icons">badge</i> HR</span>
+                    <span class="sv-chip"><i class="material-icons">description</i> SOP</span>
+                    <span class="sv-chip"><i class="material-icons">local_shipping</i> Order</span>
                 </div>
-
-                <div class="sv-card">
-                    <div class="sv-card-label">
-                        AI AGENT
-                    </div>
-                    <div class="sv-card-value">
-                        5
-                    </div>
-                    <div class="sv-card-sub">
-                        Agent Online
-                    </div>
-
-                </div>
-
-                <div class="sv-card">
-                    <div class="sv-card-label">
-                        DOKUMEN SOP
-                    </div>
-                    <div class="sv-card-value">
-                        248
-                    </div>
-                    <div class="sv-card-sub">
-                        SOP Tersedia
-                    </div>
-
-                </div>
-
-                <div class="sv-card">
-                    <div class="sv-card-label">
-                        STATUS
-                    </div>
-                    <div class="sv-card-value">
-                        Online
-                    </div>
-                    <div class="sv-card-sub">
-                        Semua sistem normal
-                    </div>
-
-                </div>
-
             </div>
             """,
-            unsafe_allow_html=True
-            )
-    
-    st.markdown(
-        """
-        <div style="
-        text-align:center;
-        margin-top:8px;
-        margin-bottom:26px;
-        color:#8a7b6c;
-        font-size:14px;
-        ">
-
-        Seluruh agent AI aktif dan siap membantu analisis operasional.
-
-        </div>
-        """,
-        unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
-    st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown(
-                """
-        <div style="
-        text-align:center;
-        font-size:15px;
-        color:#8a7b6c;
-        margin-bottom:14px;
-        ">
+        cols = st.columns(len(SUGGESTIONS))
+        clicked_question = None
 
-        Apa yang ingin Anda analisis hari ini?
-
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <div style="
-        text-align:center;
-        font-size:15px;
-        font-weight:600;
-        color:#8B5E3C;
-        margin-bottom:18px;
-        ">
-
-        Aksi Cepat
-
-        </div>
-        """,
-        unsafe_allow_html=True
-        )
-    cols = st.columns(len(SUGGESTIONS))
-    for col, (icon, label, prompt_text) in zip(cols, SUGGESTIONS):
-
+        for col, (icon, label, desc, prompt_text) in zip(cols, SUGGESTIONS):
             with col:
-
                 if st.button(
-                    f"{icon} {label}",
+                    label,
+                    icon=icon,
                     key=f"sugg_{label}",
-                    use_container_width=True
+                    use_container_width=True,
+                    help=desc,
                 ):
-                    question = prompt_text
+                    clicked_question = prompt_text
 
-    st.markdown("<br>", unsafe_allow_html=True)
+        question = st.chat_input("Tanya apa saja...") or clicked_question
+        if question:
+            process_question(question, branch_id_selected)
+            st.rerun()
 
-    question = st.chat_input(
-            "Contoh: Bagaimana omzet minggu ini di Cabang Malioboro?"
-        )
-
-    for col, (icon, label, prompt_text) in zip(cols, SUGGESTIONS):
-
-        with col:
-
-            if st.button(
-                f"{icon} {label}",
-                key=f"sugg_{label}",
-                use_container_width=True
-            ):
-
-                question = prompt_text
-
-    if question:
-
-        process_question(
-            question,
-            branch_id_selected
-        )
-
-        st.rerun()
-
-    # ---------------------------------------------------------
-    # LAYAR PERCAKAPAN (sudah ada riwayat chat)
-    # ---------------------------------------------------------
     else:
-        st.info(
-            "AI akan memilih agent yang paling sesuai secara otomatis berdasarkan konteks pertanyaan Anda."
-        )
-
         for msg in st.session_state.chat_history:
             with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
                 if msg["role"] == "assistant":
                     if msg.get("elapsed") is not None:
-                        st.caption(f"⏱️ Waktu respons: {msg['elapsed']:.1f} detik")
+                        st.caption(f":material/smart_toy: {msg.get('agent', 'AI Agent')} · {msg['elapsed']:.1f}s")
                     if msg.get("sources"):
                         with st.expander("Lihat sumber SOP yang dipakai"):
                             for src in msg["sources"]:
@@ -384,26 +222,19 @@ with tab_chat:
             process_question(question, branch_id_selected)
             st.rerun()
 
-        if st.button("🗑️ Bersihkan Riwayat Chat"):
+        if st.button("Mulai Percakapan Baru", icon=":material/refresh:"):
             st.session_state.chat_history = []
             st.rerun()
 
 # ==================================================================
-# TAB 2: MONITORING
+# TAB 2 & 3 TETAP SAMA (tidak disentuh logika bisnisnya)
 # ==================================================================
 with tab_monitor:
     st.subheader("Monitoring Kondisi Cabang")
-
-    selected_branch_name = st.selectbox(
-        "Pilih cabang",
-        options=branches_df["branch_name"].tolist(),
-        key="monitor_branch_filter",
-    )
+    selected_branch_name = st.selectbox("Pilih cabang", options=branches_df["branch_name"].tolist(), key="monitor_branch_filter")
     selected_branch_id = branches_df[branches_df["branch_name"] == selected_branch_name]["branch_id"].values[0]
 
     col1, col2, col3 = st.columns(3)
-
-    # --- Metrik ringkas ---
     trx = data["transactions"]
     trx_branch = trx[trx["branch_id"] == selected_branch_id]
     total_omzet = trx_branch["total_price"].sum()
@@ -424,22 +255,15 @@ with tab_monitor:
     col3.metric("Total Selisih Keuangan (90 hari)", f"Rp {total_discrepancy:,.0f}")
 
     st.divider()
-
-    # --- Grafik omzet harian ---
     st.markdown("**Tren Omzet Harian**")
     omzet_harian = trx_branch.groupby("date")["total_price"].sum()
     st.line_chart(omzet_harian)
 
     col_a, col_b = st.columns(2)
-
     with col_a:
         st.markdown("**Menu Terlaris**")
         menu_df = data["menu"]
-        top_menu = (
-            trx_branch.groupby("menu_id")["qty"].sum()
-            .reset_index().sort_values("qty", ascending=False).head(5)
-            .merge(menu_df, on="menu_id")
-        )
+        top_menu = (trx_branch.groupby("menu_id")["qty"].sum().reset_index().sort_values("qty", ascending=False).head(5).merge(menu_df, on="menu_id"))
         st.bar_chart(top_menu.set_index("menu_name")["qty"])
 
     with col_b:
@@ -453,14 +277,6 @@ with tab_monitor:
     channel_dist = trx_branch["order_channel"].value_counts()
     st.bar_chart(channel_dist)
 
-# ==================================================================
-# TAB 3: EVALUASI (placeholder, diisi di tahap berikutnya)
-# ==================================================================
 with tab_eval:
     st.subheader("Evaluasi Model")
-    st.info(
-        "Tab ini akan menampilkan skor evaluasi sistem multi-agent: "
-        "Accuracy, Effectiveness, Efficiency, Explainability, dan Hallucination Rate.\n\n"
-        "Bagian ini akan diisi setelah skrip evaluasi (`evaluate.py`) dijalankan "
-        "dan hasilnya disimpan ke file CSV."
-    )
+    st.info("Tab ini akan menampilkan skor evaluasi sistem multi-agent...")

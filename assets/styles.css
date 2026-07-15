@@ -3,21 +3,23 @@
    ===================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Import Google Material Icons resmi agar render HTML valid */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 /* =====================================================
    THEME
    ===================================================== */
 
 :root {
-    --primary: #8B5E3C;
-    --primary-dark: #6E4A2E;
-    --secondary: #DCC7AA;
-    --background: #F8F6F3;
-    --card: #FFFFFF;
-    --border: #E6D7C5;
-    --text: #3F342C;
-    --muted: #8A7D71;
-    --shadow: 0 12px 30px rgba(139,94,60,.08);
+    --primary: #D9A15C;
+    --primary-dark: #B97D4B;
+    --secondary: #4A3626;
+    --background: #1C130E;
+    --card: #2A1D15;
+    --border: #4A3626;
+    --text: #F2E9DD;
+    --muted: #B6A08C;
+    --shadow: 0 12px 30px rgba(0,0,0,.45);
 }
 
 /* =====================================================
@@ -31,51 +33,31 @@ body,
 }
 
 .stApp{
-    background:
-        radial-gradient(circle at 0% 0%,
-            rgba(255,230,205,.90),
-            transparent 35%),
-        radial-gradient(circle at 100% 100%,
-            rgba(220,199,170,.55),
-            transparent 35%),
-        linear-gradient(
-            180deg,
-            #FCFAF8,
-            #F8F6F3,
-            #F2ECE6
-        );
-    background-attachment:fixed;
-
+    background: linear-gradient(
+        180deg,
+        #221711 0%,
+        #1C130E 50%,
+        #150F0B 100%
+    );
+    background-attachment: fixed;
 }
 
 /* =====================================================
    BACKGROUND GLOW
    ===================================================== */
 
-.stApp::before,
 .stApp::after {
     content: "";
     position: fixed;
     border-radius: 50%;
-    filter: blur(70px);
+    filter: blur(80px);
     z-index: -1;
     animation: floatBlob 18s ease-in-out infinite;
-}
-
-.stApp::before {
-    width: 600px;
-    height: 600px;
-    top: -180px;
-    left: -180px;
-    background: rgba(255,255,255,.45);
-}
-
-.stApp::after {
     width: 450px;
     height: 450px;
     bottom: -140px;
     right: -120px;
-    background: rgba(220,199,170,.35);
+    background: rgba(74,54,38,0.25);
 }
 
 /* =====================================================
@@ -84,7 +66,7 @@ body,
 
 .block-container {
     max-width: 1180px;
-    padding-top: 3rem;
+    padding-top: 2rem; /* Disesuaikan agar penjarakan atas proposional */
     padding-bottom: 3rem;
     animation: fadeUp .7s ease;
 }
@@ -106,15 +88,10 @@ footer,
    ===================================================== */
 
 .sv-header{
-    background:
-        rgba(255,255,255,.65);
-    backdrop-filter:
-        blur(18px);
-    border:
-        1px solid rgba(255,255,255,.55);
-    box-shadow:
-        0 20px 45px rgba(0,0,0,.06);
-
+    background: rgba(42,29,21,.75);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(217,161,92,.15);
+    box-shadow: 0 20px 45px rgba(0,0,0,.35);
 }
 
 .sv-header-title {
@@ -136,34 +113,24 @@ footer,
 
 .sv-dashboard-grid{
     display:grid;
-    grid-template-columns:
-        repeat(4,1fr);
+    grid-template-columns: repeat(4,1fr);
     gap:20px;
     margin:30px 0;
-
 }
 
 .sv-card{
-    background:
-        rgba(255,255,255,.82);
-    backdrop-filter:
-        blur(14px);
-    border:
-        1px solid rgba(255,255,255,.55);
+    background: rgba(42,29,21,.82);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(217,161,92,.12);
     border-radius:22px;
     padding:26px;
     transition:.25s;
-    box-shadow:
-        0 14px 30px rgba(139,94,60,.08);
-
+    box-shadow: 0 14px 30px rgba(0,0,0,.35);
 }
 
 .sv-card:hover{
-    transform:
-        translateY(-6px);
-    box-shadow:
-        0 22px 45px rgba(139,94,60,.16);
-
+    transform: translateY(-6px);
+    box-shadow: 0 22px 45px rgba(0,0,0,.5);
 }
 
 .sv-card-label{
@@ -171,7 +138,6 @@ footer,
     font-weight:700;
     color:var(--muted);
     letter-spacing:1px;
-
 }
 
 .sv-card-value{
@@ -179,22 +145,21 @@ footer,
     font-weight:700;
     margin-top:8px;
     color:var(--primary);
-
 }
 
 .sv-card-sub{
     margin-top:8px;
     color:var(--muted);
     font-size:14px;
-
 }
+
 /* =====================================================
    GREETING
    ===================================================== */
 
 .sv-greeting-wrap {
     text-align: center;
-    padding: 60px 20px;
+    padding: 50px 20px;
     animation: fadeUp .9s ease;
 }
 
@@ -203,58 +168,37 @@ footer,
     font-weight:700;
     line-height:1.2;
     letter-spacing:-1px;
-
-    background:
-        linear-gradient(
-            120deg,
-            #6E4A2E,
-            #A56C43,
-            #D5A16C,
-            #8B5E3C
-        );
-
+    background: linear-gradient(120deg, #8B5E3C, #D9A15C, #F0C08A, #B97D4B);
     background-size:300% 300%;
-
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-
-    animation:
-        gradientMove 10s ease infinite,
-        fadeUp .8s ease;
-}
-
-.sv-greeting-sub {
-    margin-top: 12px;
-    color: var(--muted);
-    font-size: 1.05rem;
+    animation: gradientMove 10s ease infinite, fadeUp .8s ease;
 }
 
 /* =====================================================
-   QUICK ACTION CARD
-===================================================== */
+   QUICK ACTION
+   ===================================================== */
 
 .stButton>button {
     width: 100%;
-    min-height: 92px;
-    border-radius: 18px;
-    background: rgba(255,255,255,.85);
-    border: 1px solid rgba(230,215,197,.8);
-    backdrop-filter: blur(12px);
+    min-height: 85px;
     padding: 18px;
-    text-align: left;
-    font-size: .95rem;
-    font-weight: 600;
-    line-height: 1.45;
+    text-align: center;
+    border-radius: 20px;
+    background:rgba(42,29,21,.85);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(217,161,92,.15);
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
     color: var(--text);
+    font-weight: 600;
+    line-height: 1.5;
     transition: all .25s ease;
-    box-shadow: 0 10px 22px rgba(139,94,60,.06);
 }
 
-.stButton>button:hover{
-    transform: translateY(-5px);
-    border-color:rgba(139,94,60,.35);
-    box-shadow: 0 18px 36px rgba(139,94,60,.16);
-
+.stButton>button:hover {
+    transform:translateY(-5px);
+    border-color:rgba(217,161,92,.45);
+    box-shadow:0 20px 40px rgba(0,0,0,.5);
 }
 
 /* =====================================================
@@ -263,15 +207,23 @@ footer,
 
 [data-testid="stChatInput"] {
     border-radius: 24px;
-    border: none;
+    border: 1px solid var(--border);
+    background: var(--card);
     box-shadow: var(--shadow);
+    padding:10px;
+    min-height: 75px;
 }
 
 [data-testid="stChatMessage"] {
-    background: white;
+    background: var(--card);
     border-radius: 18px;
     border: 1px solid var(--border);
-    box-shadow: 0 6px 18px rgba(0,0,0,.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+[data-testid="stChatInput"] textarea{
+    font-size:16px;
+    color: var(--text);
 }
 
 /* =====================================================
@@ -279,31 +231,23 @@ footer,
    ===================================================== */
 
 .stMetric {
-    background: rgba(255,255,255,.82);
+    background: rgba(42,29,21,.82);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,.45);
+    border: 1px solid rgba(217,161,92,.12);
     border-radius: 22px;
     padding: 22px;
     min-height: 145px;
-
     display: flex;
     justify-content: center;
     flex-direction: column;
-
-    box-shadow:
-        0 10px 25px rgba(139,94,60,.08);
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        border .25s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    transition: transform .25s ease, box-shadow .25s ease, border .25s ease;
 }
 
 .stMetric:hover {
     transform: translateY(-6px);
-    border-color: rgba(139,94,60,.25);
-    box-shadow:
-        0 22px 45px rgba(139,94,60,.16);
+    border-color: rgba(217,161,92,.4);
+    box-shadow: 0 22px 45px rgba(0,0,0,.5);
 }
 
 .stMetric label {
@@ -321,9 +265,39 @@ footer,
     margin-top: 6px;
 }
 
-.stMetric [data-testid="stMetricDelta"] {
+/* =====================================================
+   AGENT LIST CHIPS & ICONS
+   ===================================================== */
+
+.sv-agent-list {
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: .95rem;
+    font-weight: 500;
+    letter-spacing: .4px;
+}
+
+.sv-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Jarak icon dengan teks */
+    background: rgba(217,161,92,.10);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 8px 16px;
+    margin: 5px;
     font-size: .9rem;
-    font-weight: 600;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+/* Styling Khusus untuk render class .material-icons di dalam chip */
+.sv-chip .material-icons {
+    font-size: 18px;
+    color: var(--primary);
+    vertical-align: middle;
+    display: inline-block;
 }
 
 /* =====================================================
@@ -336,26 +310,27 @@ footer,
 }
 
 button[data-baseweb="tab"] {
-    background: white;
+    background: var(--card);
     border-radius: 14px;
     border: 1px solid var(--border);
     padding: 10px 20px;
     font-weight: 600;
     color: var(--muted);
     transition: .25s;
-    box-shadow: 0 6px 18px rgba(0,0,0,.04);
+    box-shadow: 0 6px 18px rgba(0,0,0,.25);
 }
 
+/* PERBAIKAN: Menghapus transform: translateY(-2px) agar pinggiran atas tidak lagi kepotong */
 button[data-baseweb="tab"]:hover {
-    transform: translateY(-2px);
     color: var(--primary);
+    border-color: rgba(217, 161, 92, 0.4); /* Opsional: memberikan sedikit kilau border saat di-hover */
 }
 
 button[data-baseweb="tab"][aria-selected="true"] {
-    background: linear-gradient(135deg,#8B5E3C,#A96F44);
-    color: white !important;
+    background: linear-gradient(135deg,var(--primary-dark),var(--primary));
+    color: #1C130E !important;
     border: none;
-    box-shadow: 0 14px 28px rgba(139,94,60,.20);
+    box-shadow: 0 14px 28px rgba(0,0,0,.4);
 }
 
 div[data-baseweb="tab-highlight"] {
@@ -363,7 +338,7 @@ div[data-baseweb="tab-highlight"] {
 }
 
 /* =====================================================
-   SCROLLBAR
+   SCROLLBAR & ANIMATION
    ===================================================== */
 
 ::-webkit-scrollbar {
@@ -375,87 +350,31 @@ div[data-baseweb="tab-highlight"] {
     border-radius: 20px;
 }
 
-/* =====================================================
-   ANIMATION
-   ===================================================== */
-
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes floatBlob {
-    0%,100% {
-        transform: translate(0,0);
-    }
-    50% {
-        transform: translate(20px,20px);
-    }
-}
-
-@keyframes pageEnter {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* =====================================================
-   RESPONSIVE
-   ===================================================== */
-
-@media (max-width: 900px) {
-
-    .sv-greeting-title {
-        font-size: 2.2rem;
-    }
-
-    .sv-header-title {
-        font-size: 1.5rem;
-    }
-
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(20px,20px); }
 }
 
 @keyframes gradientMove{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+}
 
-    0%{
-        background-position:0% 50%;
-    }
-
-    50%{
-        background-position:100% 50%;
-    }
-
-    100%{
-        background-position:0% 50%;
-    }
-
+@media (max-width: 900px) {
+    .sv-greeting-title { font-size: 2.2rem; }
+    .sv-header-title { font-size: 1.5rem; }
 }
 
 @media(max-width:1100px){
-
-.sv-dashboard-grid{
-    grid-template-columns:
-    repeat(2,1fr);
-    }
-
+    .sv-dashboard-grid{ grid-template-columns: repeat(2,1fr); }
 }
 
 @media(max-width:700px){
-
-.sv-dashboard-grid{
-    grid-template-columns:
-    1fr;
-    }
-
+    .sv-dashboard-grid{ grid-template-columns: 1fr; }
 }
