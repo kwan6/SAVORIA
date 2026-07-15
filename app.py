@@ -173,6 +173,7 @@ with tab_chat:
         st.markdown(
             f"""
             <div class="sv-greeting-wrap">
+                <!-- Di sini kita panggil fungsi get_greeting() agar dinamis -->
                 <div class="sv-greeting-title">{get_greeting()}, Manajer</div>
                 <div class="sv-agent-list">
                     <span class="sv-chip"><i class="material-icons">inventory_2</i> Inventory</span>

@@ -32,13 +32,10 @@ body,
     font-family: 'Inter', sans-serif;
 }
 
-.stApp{
-    background: linear-gradient(
-        180deg,
-        #221711 0%,
-        #1C130E 50%,
-        #150F0B 100%
-    );
+.stApp {
+    /* UBAH DI SINI: Mengubah background menjadi satu warna solid (flat dark) 
+       agar tidak ada bayangan/gradien gelap melengkung sama sekali di area atas */
+    background: #1C130E;
     background-attachment: fixed;
 }
 
