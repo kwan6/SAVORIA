@@ -1,4 +1,4 @@
-# SAVORIA (FnB AI Agentic)
+# SAVORIA (FnB AI Multi-Agent)
 
 SAVORIA merupakan proyek UAS yang mengimplementasikan konsep **Agentic AI** pada domain **Food and Beverage (F&B)**.
 
